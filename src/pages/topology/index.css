@@ -1,0 +1,60 @@
+#topo {
+  height: 80vh;
+  margin: 20px;
+  border: 1px solid;
+  background-color: #3d444f;
+}
+
+#tip {
+  background-color: #666a;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: #eee;
+}
+#tip:after {
+  content: ' ';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: #666a;
+}
+#topo .unselected {
+  opacity: 0.1;
+}
+.node {
+  cursor: move;
+  fill: #ddd;
+}
+.node .node-type {
+  width: 24px;
+  height: 24px;
+  transform: translate(-12px, -12px);
+}
+.node .node-text {
+  text-anchor: middle;
+  transform: translateY(50px);
+}
+.node .circle {
+  r: 24px;
+  fill: #4e5765aa;
+  stroke-width: 6px;
+  transition: all 1s;
+}
+.edge {
+  fill: none;
+  stroke: rgb(33, 126, 242, 0.5);
+  stroke-dasharray: 7 13;
+  stroke-linecap: round;
+  stroke-width: 2px;
+  animation: topo-dash 1s linear infinite;
+}
+@keyframes topo-dash {
+  from {
+    stroke-dashoffset: 20;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
