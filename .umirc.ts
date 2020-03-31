@@ -10,6 +10,7 @@ const config: IConfig = {
       routes: [
         { path: '/', component: '../pages/index' },
         { path: '/dashboard', component: '../pages/dashboard' },
+        { path: '/trace', component: '../pages/trace' },
       ],
     },
   ],

@@ -5,14 +5,16 @@ export interface IAxiosData {
   [key: string]: any;
 }
 
-
 const ERROR_CODE = 400;
 const SUCCESS_CODE = 200;
 const BASE_URL = '/aiops';
-const PROXY = process.env.NODE_ENV === 'production' ? (false) : ({
-  host: 'http://0.0.0.0',
-  port: 8080,
-});
+const PROXY =
+  process.env.NODE_ENV === 'production'
+    ? false
+    : {
+        host: 'http://0.0.0.0',
+        port: 8080,
+      };
 
 interface IResponse {
   data: {
@@ -27,13 +29,18 @@ const clientConfig: AxiosRequestConfig = {
   proxy: PROXY,
   timeout: 100000,
   withCredentials: true,
-  headers: {'x-trace-id': uuid()},
+  headers: { 'x-trace-id': uuid() },
 };
 
 function responseHandler(res: AxiosResponse & IResponse) {
   if (res.status === 200) {
     const { code, data, message: msg } = res.data;
-
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(res.data);
+      }, Math.random() * 2000);
+    });
+    return res.data;
     if (SUCCESS_CODE === code) {
       // 对于特殊操作只有 code 和 message
       return data || res;
@@ -74,9 +81,9 @@ class Client {
   }
 
   get(url: string, params = {}) {
-    const options: AxiosRequestConfig = { method: 'get', url, params};
+    const options: AxiosRequestConfig = { method: 'get', url, params };
 
-    return this.request(options) as unknown as Promise<IResponseData<any>>;
+    return (this.request(options) as unknown) as Promise<IResponseData<any>>;
   }
 
   post(url: string, data: IAxiosData = {}, type = 'json') {
@@ -92,18 +99,18 @@ class Client {
       options.headers = {};
       options.headers['Content-Type'] = 'multipart/form-data';
 
-      keys.forEach((key) => {
+      keys.forEach(key => {
         formData.append(key, data[key]);
       });
 
       options.data = formData;
     }
 
-    return this.request(options) as unknown as Promise<IResponseData<any>>;
+    return (this.request(options) as unknown) as Promise<IResponseData<any>>;
   }
 
   put(url: string, data: IAxiosData = {}, type = 'json') {
-    const options: AxiosRequestConfig = { method: 'put', url};
+    const options: AxiosRequestConfig = { method: 'put', url };
 
     if (type === 'json') {
       options.data = data;
@@ -115,30 +122,30 @@ class Client {
       options.headers = {};
       options.headers['Content-Type'] = 'multipart/form-data';
 
-      keys.forEach((key) => {
+      keys.forEach(key => {
         formData.append(key, data[key]);
       });
 
       options.data = formData;
     }
 
-    return this.request(options) as unknown as Promise<IResponseData<any>>;
+    return (this.request(options) as unknown) as Promise<IResponseData<any>>;
   }
 
   delete(url: string) {
-    const options: AxiosRequestConfig = { method: 'delete', url};
+    const options: AxiosRequestConfig = { method: 'delete', url };
 
-    return this.request(options) as unknown as Promise<IResponseData<any>>;
+    return (this.request(options) as unknown) as Promise<IResponseData<any>>;
   }
 
   request(options: AxiosRequestConfig) {
-    return this.client.request(options).catch((err: AxiosError) => {
+    return (this.client.request(options).catch((err: AxiosError) => {
       if (err && err.message) {
         alert(err.message);
       }
       console.error(err);
       throw err;
-    }) as unknown as Promise<IResponseData<any>>;
+    }) as unknown) as Promise<IResponseData<any>>;
   }
 }
 
