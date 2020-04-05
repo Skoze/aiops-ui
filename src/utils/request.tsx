@@ -35,10 +35,11 @@ const clientConfig: AxiosRequestConfig = {
 function responseHandler(res: AxiosResponse & IResponse) {
   if (res.status === 200) {
     const { code, data, message: msg } = res.data;
-    return new Promise(resolve => {
+    console.log(`${res.config.url} response`, res.data);
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve(res.data);
-      }, Math.random() * 2000);
+      }, 1000 + Math.random() * 2000);
     });
     return res.data;
     if (SUCCESS_CODE === code) {
@@ -76,6 +77,10 @@ class Client {
 
   constructor() {
     const axiosClient = axios.create(clientConfig);
+    axiosClient.interceptors.request.use((body) => {
+      console.log(`${body.url} request`, body.data);
+      return body;
+    }, errorHandler);
     axiosClient.interceptors.response.use(responseHandler, errorHandler);
     this.client = axiosClient;
   }
@@ -99,7 +104,7 @@ class Client {
       options.headers = {};
       options.headers['Content-Type'] = 'multipart/form-data';
 
-      keys.forEach(key => {
+      keys.forEach((key) => {
         formData.append(key, data[key]);
       });
 
@@ -122,7 +127,7 @@ class Client {
       options.headers = {};
       options.headers['Content-Type'] = 'multipart/form-data';
 
-      keys.forEach(key => {
+      keys.forEach((key) => {
         formData.append(key, data[key]);
       });
 

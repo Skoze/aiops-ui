@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React from 'react';
 import { Layout, Breadcrumb, ConfigProvider } from 'antd';
 import router from 'umi/router';
 import Header from '../components/Header';
@@ -6,14 +6,14 @@ import Footer from '../components/Footer';
 import { useDuration } from '../hooks/index.js';
 import zhCN from 'antd/es/locale/zh_CN';
 
-const BasicLayout: React.FC = props => {
+const BasicLayout: React.FC = (props) => {
   const { duration, range, refresh, changeDuration } = useDuration();
   const { children } = props;
   const paths = window.location.pathname.split('/');
   console.log(props);
   return (
     <ConfigProvider locale={zhCN}>
-      <Layout className="layout">
+      <Layout className="layout" style={{ height: '100%' }}>
         <Header />
         <Layout style={{ padding: '0 24px', background: '#f0f2f5' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
@@ -21,7 +21,7 @@ const BasicLayout: React.FC = props => {
               return index <= 1 ? null : (
                 <Breadcrumb.Item
                   key={path}
-                  onClick={e => {
+                  onClick={(e) => {
                     e.stopPropagation();
                     router.push('/' + paths.slice(2, index + 1).join('/'));
                   }}
