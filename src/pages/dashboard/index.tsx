@@ -11,7 +11,7 @@ import InstancePanel from '@/components/Dashboard/components/tab/serviceInstance
 import EndpointPanel from '@/components/Dashboard/components/tab/endpoint';
 import { connect } from 'dva';
 import { IAPPModel } from '@/models/APPModal';
-interface IDashboardProps{
+interface IDashboardProps {
   duration: Duration;
   refresh: number;
 }
@@ -25,7 +25,7 @@ const Dashboard: FC<IDashboardProps> = props => {
   const [serviceInstances, setServiceInstances] = useState();
   const onFilterChange = (type: string, value: string) => {
     let tempFilter: DashBoardFilter = { type: filter.type };
-    switch(type) {
+    switch (type) {
       case 'type':
         tempFilter.type = value;
         break;
@@ -46,27 +46,31 @@ const Dashboard: FC<IDashboardProps> = props => {
         break;
     }
     setFilter(tempFilter);
-    setSelectedIds({...selectedIds, ...tempFilter});
-  }
+    setSelectedIds({ ...selectedIds, ...tempFilter });
+  };
   useEffect(() => {
     Promise.all([
       request.get('/metadata/getDatabases'),
       request.get('/metadata/getServices'),
-    ]).then(res => {
+    ])
+    .then(res => {
       setDatabases(res[0]);
       setServices(res[1]);
       setSelectedIds({ service: res[0][0].databaseId, database: res[1][0].serviceId })
       Promise.all([
         request.get('/metadata/getEndpoints', { service_id: res[1][0].serviceId }),
         request.get('/metadata/getServiceInstances', { service_id: res[1][0].serviceId }),
-      ]).then(response => {
+      ])
+      .then(response => {
         setEndpoints(response[0]);
         setServiceInstances(response[1]);
         setSelectedIds({ endpoint: res[0][0].serviceEndpointId, serviceInstance: res[1][0].serviceInstanceId })
-      }).catch(e => {
-        message.error(e.message);
       })
-    }).catch(e => {
+      .catch(e => {
+          message.error(e.message);
+      });
+    })
+    .catch(e => {
       message.error(e.message);
     });
   }, []);
@@ -74,13 +78,15 @@ const Dashboard: FC<IDashboardProps> = props => {
     Promise.all([
       request.get('/metadata/getEndpoints', { service_id: id }),
       request.get('/metadata/getServiceInstances', { service_id: id }),
-    ]).then(res => {
-      setEndpoints(res[0]);
-      setServiceInstances(res[1]);
-    }).catch(e => {
-      message.error(e.message);
-    })
-  }
+    ])
+      .then(res => {
+        setEndpoints(res[0]);
+        setServiceInstances(res[1]);
+      })
+      .catch(e => {
+        message.error(e.message);
+      });
+  };
   const onTabChange = (key: string) => {
     switch (key) {
       case '1-2':
@@ -98,7 +104,7 @@ const Dashboard: FC<IDashboardProps> = props => {
       default:
         break;
     }
-  }
+  };
   return (
     <div>
       <DashBoardHeader
@@ -177,7 +183,7 @@ const Dashboard: FC<IDashboardProps> = props => {
             }
           </Tabs.TabPane>
         </Tabs>
-      } 
+      }
     </div>
   );
 };
