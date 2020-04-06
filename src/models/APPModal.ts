@@ -11,7 +11,7 @@ export interface IAPPState {
 }
 
 export type TAPPDispatch = Dispatch<{
-  type: 'APP/setRefreshNum' | 'APP/setAuto' | 'APP/setRefresh' | 'APP/AutoRefresh';
+  type: 'APP/setRefreshInterval' | 'APP/setAuto' | 'APP/setRefresh' | 'APP/AutoRefresh';
   [key: string]: any;
 }>;
 
@@ -34,7 +34,7 @@ const appModel: IAPPModel = {
     },
   },
   reducers: {
-    setRefreshNum(state: IAPPState, { refreshNum }: any) {
+    setRefreshInterval(state: IAPPState, { refreshNum }: any) {
       return {
         ...state,
         refreshNum,

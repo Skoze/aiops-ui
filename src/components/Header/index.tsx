@@ -27,7 +27,7 @@ const OPSHeader: FC<IProps> = props => {
   const onChange = async (type: string, v: any) => {
     if (type === 'num') {
       dispatch({
-        type: 'APP/setRefreshNum',
+        type: 'APP/setRefreshInterval',
         refreshNum: v,
       });
     } else if (type === 'refresh') {
