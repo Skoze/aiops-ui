@@ -6,10 +6,10 @@ import request from '@/utils/request';
 interface IServicePanelProps{
   refresh: number;
   duration: Duration;
-  id: string;
+  id?: string;
   }
 const ServicePanel: FC<IServicePanelProps> = props => {
-  const { refresh, duration, id } = props;
+  const { refresh, duration, id = '' } = props;
   const [serviceData, setServiceData] = useState<Array<DataPackage>>([]);
   useEffect(() => {
     request.post('/service/', {

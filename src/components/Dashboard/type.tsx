@@ -1,6 +1,6 @@
 import moment from 'moment';
 export interface DashBoardFilter {
-    type: string;
+    type?: string;
     service?: string;
     endpoint?: string;
     serviceInstance?: string;
@@ -25,7 +25,7 @@ export interface EndpointsType {
 };
 export interface dateValue {
     value: number;
-    predict?: number;
+    predict: number;
 }
 export interface dateSery {
     name?: string;
@@ -33,9 +33,15 @@ export interface dateSery {
 }
 export interface HeapMapData {
     name?: string;
-    value: Array<[number, number, number]>;
+    value: Array<Nodes>;
     responseTimeStep: number,
 };
+interface Nodes {
+    predict: number;
+    value: number;
+    x: number;
+    y: number;
+}
 export interface ServiceInstancesType {
     name: string;
     instanceUuid: string;
@@ -52,7 +58,7 @@ export interface DatabaseType {
     nodeType: string;
 };
 export interface SanKey {
-    nodes: Array<{name: string, value: string}>;
+    nodes: Array<{id: string, value: string}>;
     calls: Array<{id: string, source: string, target: string, value?: number}>;
 }
 export interface DataPackage {
@@ -173,7 +179,11 @@ const basicConfig = (duration: Duration) => {
     }
 };
 export const translateToLineChart = (data: dateSery, duration: Duration) => {
-    const oneSery = data.values.map(p => {
+    let predict: { coord: number[]; }[] = [];
+    const oneSery = data.values.map((p, index) => {
+        if (p.predict > 0.5) {
+            predict.push({ coord: [index, p.value] });
+        }
         return p.value;
     })
     const defaultLineChart= basicConfig(duration);
@@ -182,27 +192,51 @@ export const translateToLineChart = (data: dateSery, duration: Duration) => {
         series: [{
             type: 'line',
             name: data.name,
+            symbol: "none",
             data: oneSery,
-            /*
-            itemStyle : {
-                color: (params: Object) => Color 
-                obj: seriesIndex, dataIndex, data, value
-            }
-            */
+            markPoint: { // markLine 也是同理
+                symbol:'circle',
+                symbolSize: '6',
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: 'Exception',
+                    fontFamily: 'Microsoft YaHei',
+                },
+                itemStyle: { color: 'red' },
+                data: predict,
+            },
         }],
     };
 };
 export const translateToStackLineChart = (globalPercentile: Array<dateSery>, duration: Duration) => {
     const nameList: Array<string> = [];
     const series = globalPercentile.map((percent: dateSery) => {
-        const oneSery = percent.values.map(p => {
+        let predict: { coord: number[]; }[] = [];
+        const oneSery = percent.values.map((p, index) => {
+            if (p.predict > 0.5) {
+                predict.push({ coord: [index, p.value] });
+            }
             return p.value;
         })
         nameList.push(percent.name || '');
         return {
             type: 'line',
             name: percent.name,
+            symbol: "none",
             data: oneSery,
+            markPoint: { // markLine 也是同理
+                symbol:'circle',
+                symbolSize: '6',
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: 'Exception',
+                    fontFamily: 'Microsoft YaHei',
+                },
+                itemStyle: { color: 'red' },
+                data: predict,
+            },
         };
     });
     const defaultLineChart= basicConfig(duration);
@@ -226,6 +260,13 @@ export const translateToBarChart = (data: dateSery, duration: Duration) => {
             barWidth: '50%',
             name: data.name,
             data: oneSery,
+            itemStyle: {
+                color: (params: { dataIndex: number; }) => {
+                    if(data.values[`${params.dataIndex}`] > 0.5) {
+                        return 'red';
+                    };
+                },
+            },
         }],
     };
     
@@ -233,15 +274,32 @@ export const translateToBarChart = (data: dateSery, duration: Duration) => {
 export const translateToLineAreaChart = (data: Array<dateSery>, duration: Duration) => {
     const nameList: Array<string> = [];
     const series = data.map((percent: dateSery) => {
-        const oneSery = percent.values.map(p => {
+        let predict: { coord: number[]; }[] = [];
+        const oneSery = percent.values.map((p, index) => {
+            if (p.predict > 0.5) {
+                predict.push({ coord: [index, p.value] });
+            }
             return p.value;
         })
         nameList.push(percent.name || '');
         return {
             type: 'line',
             name: percent.name,
+            symbol: "none",
             data: oneSery,
             areaStyle: {},
+            markPoint: { // markLine 也是同理
+                symbol:'circle',
+                symbolSize: '6',
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: 'Exception',
+                    fontFamily: 'Microsoft YaHei',
+                },
+                itemStyle: { color: 'red' },
+                data: predict,
+            },
         };
     });
     const defaultLineChart= basicConfig(duration);
@@ -251,8 +309,14 @@ export const translateToLineAreaChart = (data: Array<dateSery>, duration: Durati
     };
 };
 export const translateToHeatMapChart = (heapMapdata: HeapMapData, duration: Duration) => {
-    let data = heapMapdata.value.map(function (item) {
-        return [item[1], item[0], item[2] || '-'];
+    let maxValue = 0.0;
+    let predict: { coord: number[]; }[] = [];
+    let data = heapMapdata.value.map(item => {
+        maxValue = maxValue > item.value ? maxValue : item.value;
+        if (item.predict > 0.5) {
+            predict.push({ coord: [item.x, item.y] });
+        }
+        return [item.x, item.y, item.value || '-'];
     });
     const defaultLineChart= basicConfig(duration);
     return {
@@ -266,18 +330,31 @@ export const translateToHeatMapChart = (heapMapdata: HeapMapData, duration: Dura
         },
         visualMap: {
             min: 0,
-            max: 10,
-            calculable: true,
-            orient: 'horizontal',
-            left: 'center',
-            bottom: '15%'
+            max: maxValue,
+            show: false,
+            inRange: {
+                color: ['white', 'red', 'darkRed'],
+            }
         },
         series: [{
             name: heapMapdata.name,
             type: 'heatmap',
             data: data,
             label: {
-                show: true
+                show: false,
+            },
+            markPoint: { 
+                symbol:'circle',
+                symbolSize: '0.001',
+                label: {
+                    show: true,
+                    formatter: 'Exception',
+                    fontFamily: 'Microsoft YaHei',
+                    fontSize: '9',
+                    position: 'bottom',
+                },
+                itemStyle: { color: 'black' },
+                data: predict,
             },
             emphasis: {
                 itemStyle: {
@@ -298,7 +375,12 @@ export const translateToSanKeyChart = (sanKeyData: SanKey) => {
         series: [
             {
                 type: 'sankey',
-                data: sanKeyData.nodes,
+                data: sanKeyData.nodes.map(node => {
+                    return {
+                        name: node.id,
+                        value: node.value,
+                    };
+                }),
                 links: sanKeyData.calls.map(call => {
                     return {
                         ...call,

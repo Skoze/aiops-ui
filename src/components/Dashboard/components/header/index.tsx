@@ -3,14 +3,16 @@ import { DashBoardFilter, ServiceInstancesType, EndpointsType, ServicesType, Dat
 import DropDownSelect from './dropdown';
 interface IDashBoardHeaderProps{
   filter: DashBoardFilter;
-  services: Array<ServicesType>;
-  databases: Array<DatabaseType>;
-  endpoints: Array<EndpointsType>;
-  serviceInstances: Array<ServiceInstancesType>;
+  services?: Array<ServicesType>;
+  databases?: Array<DatabaseType>;
+  endpoints?: Array<EndpointsType>;
+  serviceInstances?: Array<ServiceInstancesType>;
 	onFilterChange: (type: string, value: string) => void;
 }
 const DashBoardHeader: FC<IDashBoardHeaderProps> = props => {
-  const { filter, services, endpoints, serviceInstances, databases, onFilterChange } = props;
+  const {
+    filter, services = [], endpoints = [], serviceInstances = [], databases = [], onFilterChange,
+  } = props;
   const types = [{
     id: '1',
     name: 'Service'
@@ -25,7 +27,7 @@ const DashBoardHeader: FC<IDashBoardHeaderProps> = props => {
         onChange={onFilterChange}
         type={'type'}
         idName={'id'}
-        target={filter.type}
+        target={filter.type || '1'}
       />
       {
         filter.type === '1' &&
@@ -54,7 +56,7 @@ const DashBoardHeader: FC<IDashBoardHeaderProps> = props => {
           onChange={onFilterChange}
           type={'serviceInstance'}
           idName={'instanceUuid'}
-          target={filter.serviceInstance || serviceInstances[0].instanceUuid}
+          target={filter.serviceInstance || String(serviceInstances[0].serviceInstanceId)}
         />
       }
       {

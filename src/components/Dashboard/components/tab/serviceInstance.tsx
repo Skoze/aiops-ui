@@ -8,7 +8,7 @@ import request from '@/utils/request';
 interface IInstancePanelProps{
   refresh: number;
   duration: Duration;
-  instance: ServiceInstancesType;
+  instance?: ServiceInstancesType;
 }
 const InstancePanel: FC<IInstancePanelProps> = props => {
   const { refresh, duration, instance } = props;
@@ -16,7 +16,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
   useEffect(() => {
     request.post('/instance/', {
       duration,
-      id: instance.instanceUuid,
+      id: instance?.serviceInstanceId,
     }).then(res => {
       const result: Array<DataPackage> = []; 
       result.push({

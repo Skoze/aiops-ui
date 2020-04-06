@@ -1,21 +1,23 @@
 import React, { FC } from 'react';
+import { Card } from 'antd';
 import { WarnInfo } from './type';
 import WarnItem from './list-item';
 import './index.less';
 interface IWarningListProps{
-  warningList: Array<WarnInfo>;
+  warningList?: Array<WarnInfo>;
 }
 const WarningList: FC<IWarningListProps> = props => {
-  const { warningList } = props;
+  const { warningList = [] } = props;
   return (
-    <div className="warning-list">
+    <Card>
+      <div className="warning-list">
       <div
         style={{
           width: '1px',
           height: '100%',
           backgroundColor: '#448dfe',
           position: 'absolute',
-          left: '140px',
+          left: '133px',
         }}
       />
       {
@@ -27,6 +29,8 @@ const WarningList: FC<IWarningListProps> = props => {
         ))
       }
     </div>
+    </Card>
+    
   );
 };
 export default WarningList;

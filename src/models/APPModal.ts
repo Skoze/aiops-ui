@@ -1,5 +1,4 @@
 import { Model } from 'dva';
-import _ from 'lodash';
 import { Dispatch } from 'redux';
 
 export interface IAPPState {
@@ -9,7 +8,7 @@ export interface IAPPState {
 }
 
 export type TAPPDispatch = Dispatch<{
-  type: 'APP/setRefreshNum' | 'APP/setAuto' | 'APP/setRefresh';
+  type: 'APP/setRefreshNum' | 'APP/setAuto' | 'APP/setRefresh' | 'APP/AutoRefresh';
   [key: string]: any;
 }>;
 
@@ -44,6 +43,25 @@ const appModel: IAPPModel = {
     },
   },
   effects: {
+    * AutoRefresh(action, { call, put, select }) {
+      const delay = (ms: number) => new Promise(resolve => {
+        setTimeout(resolve, ms);
+      });
+      let isAuto = yield select((state: {APP: IAPPState}) => state.APP.auto);
+      const refreshNum = yield select((state: {APP: IAPPState}) => state.APP.refreshNum);
+      while(isAuto) {
+        isAuto = yield select((state: {APP: IAPPState}) => state.APP.auto);
+        if (!isAuto) {
+          break;
+        }
+        const refresh = yield select((state: {APP: IAPPState}) => state.APP.refresh);
+        yield put({
+          type: 'setRefresh',
+          refresh: refresh + 1,
+        })
+        yield call(delay, refreshNum * 1000); // 延时refreshNums之后进行下一次的while循环执行
+      }
+    },
   },
 };
 

@@ -8,10 +8,10 @@ import request from '@/utils/request';
 interface IDatabasePanelProps{
   refresh: number;
   duration: Duration;
-  id: string;
+  id?: string;
 }
 const DatabasePanel: FC<IDatabasePanelProps> = props => {
-  const { refresh, duration, id } = props;
+  const { refresh, duration, id = '' } = props;
   const [databaseData, setDatabaseData] = useState<Array<DataPackage>>([]);
   useEffect(() => {
     request.post('/database/', {

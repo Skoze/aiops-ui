@@ -3,7 +3,7 @@ import { Layout, InputNumber, Button } from 'antd';
 import TabMenu from './tabmenu';
 import { connect } from 'dva';
 import { IAPPModel, TAPPDispatch } from '@/models/APPModal';
-
+import './header.less';
 interface IProps {
   dispatch: TAPPDispatch;
   refresh: number;
@@ -15,7 +15,16 @@ const { Header } = Layout;
 
 const OPSHeader: FC<IProps> = props => {
   const { refresh, auto, refreshNum, dispatch } = props;
-  const onChange = (type: string, v: any) => {
+  const menu = [{
+    icon: 'area-chart', label: '仪表盘', url: '/dashboard',
+  }, {
+    icon: 'deployment-unit', label: '拓扑图', url: '/topology',
+  }, {
+    icon: 'branches', label: '追踪', url: '/traces',
+  }, {
+    icon: 'warning', label: '告警', url: '/warning',
+  }];
+  const onChange = async (type: string, v: any) => {
     if (type === 'num') {
       dispatch({
         type: 'APP/setRefreshNum',
@@ -27,31 +36,46 @@ const OPSHeader: FC<IProps> = props => {
         refresh: v,
       });
     } else if (type === 'auto') {
-      dispatch({
+      await dispatch({
         type: 'APP/setAuto',
         auto: v,
       });
-    } 
+      if (v) {
+        dispatch({
+          type: 'APP/AutoRefresh',
+          auto: v,
+        });
+      } 
+    }
   }
   return (
     <Header className="ops_header">
-      <div className="logo">
-        <img src="log.jpeg" alt="aiops" height={30} width={150} />
-      </div>
-      <div className="ops_header_center">
-        <TabMenu />
-      </div>
+      <TabMenu menu={menu}/>
       <div className="ops_header_refresh">
-        <Button onClick={() => onChange('auto', !auto)}>自动</Button>
+        <Button
+          type="primary"
+          size="small"
+          onClick={() => onChange('auto', !auto)}
+        >
+          自动
+        </Button>
         <InputNumber
           min={3}
           max={60}
+          size="small"
           value={refreshNum}
           onChange={e => onChange('num', e)}
           formatter={value => `${value}s`}
-          parser={value => value.replace('s', '')}
+          parser={value => value?.replace('s', '')}
         />
-        <Button onClick={() => onChange('refresh', refresh + 1)}>刷新</Button>
+        <Button
+          type="primary"
+          size="small"
+          icon="sync"
+          onClick={() => onChange('refresh', refresh + 1)}
+        >
+          刷新
+        </Button>
       </div>
     </Header>
   );

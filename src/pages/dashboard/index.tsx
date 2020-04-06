@@ -9,14 +9,16 @@ import ServicePanel from '@/components/Dashboard/components/tab/service';
 import DatabasePanel from '@/components/Dashboard/components/tab/database';
 import InstancePanel from '@/components/Dashboard/components/tab/serviceInstance';
 import EndpointPanel from '@/components/Dashboard/components/tab/endpoint';
+import { connect } from 'dva';
+import { IAPPModel } from '@/models/APPModal';
 interface IDashboardProps{
   duration: Duration;
   refresh: number;
 }
 const Dashboard: FC<IDashboardProps> = props => {
   const { duration, refresh } = props;
-  const [filter, setFilter] = useState();
-  const [selectedIds, setSelectedIds] = useState();
+  const [filter, setFilter] = useState<DashBoardFilter>({ type: '1'});
+  const [selectedIds, setSelectedIds] = useState<DashBoardFilter>();
   const [services, setServices] = useState();
   const [databases, setDatabases] = useState();
   const [endpoints, setEndpoints] = useState();
@@ -53,14 +55,14 @@ const Dashboard: FC<IDashboardProps> = props => {
     ]).then(res => {
       setDatabases(res[0]);
       setServices(res[1]);
-      setSelectedIds({service: res[0][0].databaseId, database: res[1][0].serviceId })
+      setSelectedIds({ service: res[0][0].databaseId, database: res[1][0].serviceId })
       Promise.all([
         request.get('/metadata/getEndpoints', { service_id: res[1][0].serviceId }),
         request.get('/metadata/getServiceInstances', { service_id: res[1][0].serviceId }),
       ]).then(response => {
         setEndpoints(response[0]);
         setServiceInstances(response[1]);
-        setSelectedIds({endpoint: res[0][0].serviceEndpointId, serviceInstance: res[1][0].instanceUuid })
+        setSelectedIds({ endpoint: res[0][0].serviceEndpointId, serviceInstance: res[1][0].serviceInstanceId })
       }).catch(e => {
         message.error(e.message);
       })
@@ -82,16 +84,16 @@ const Dashboard: FC<IDashboardProps> = props => {
   const onTabChange = (key: string) => {
     switch (key) {
       case '1-2':
-        setFilter({ type: '1', service: selectedIds.service });
+        setFilter({ type: '1', service: selectedIds?.service });
         break;
       case '1-3':
-        setFilter({ type: '1', endpoint: selectedIds.endpoint});
+        setFilter({ type: '1', endpoint: selectedIds?.endpoint});
         break;
       case '1-4':
-        setFilter({ type: '1', serviceInstance: selectedIds.serviceInstance});
+        setFilter({ type: '1', serviceInstance: selectedIds?.serviceInstance});
         break;
       case '2-2':
-        setFilter({ type: '2', database: selectedIds.database});
+        setFilter({ type: '2', database: selectedIds?.database});
         break;
       default:
         break;
@@ -125,7 +127,7 @@ const Dashboard: FC<IDashboardProps> = props => {
             <ServicePanel
               refresh={refresh}
               duration={duration}
-              id={filter?.service}
+              id={filter.service}
             />
           }
         </Tabs.TabPane>
@@ -135,7 +137,7 @@ const Dashboard: FC<IDashboardProps> = props => {
             <EndpointPanel
               refresh={refresh}
               duration={duration}
-              id={filter?.endpoint}
+              id={filter.endpoint}
             />
           }
         </Tabs.TabPane>
@@ -145,7 +147,7 @@ const Dashboard: FC<IDashboardProps> = props => {
           <InstancePanel
             refresh={refresh}
             duration={duration}
-            instance={_.find(serviceInstances, (instance: ServiceInstancesType) => instance.instanceUuid === filter?.endpoint)}
+            instance={_.find(serviceInstances, (instance: ServiceInstancesType) => String(instance.serviceInstanceId) === filter?.endpoint)}
           />
         }
       </Tabs.TabPane>
@@ -170,7 +172,7 @@ const Dashboard: FC<IDashboardProps> = props => {
               <DatabasePanel
                 refresh={refresh}
                 duration={duration}
-                id={filter?.database}
+                id={filter.database}
               />
             }
           </Tabs.TabPane>
@@ -179,4 +181,8 @@ const Dashboard: FC<IDashboardProps> = props => {
     </div>
   );
 };
-export default Dashboard;
+export default connect((state: { APP: IAPPModel['state'] }) => {
+  return {
+    refresh: state.APP.refresh,
+  };
+})(Dashboard);
