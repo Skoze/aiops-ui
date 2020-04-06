@@ -7,13 +7,14 @@ import zhCN from 'antd/es/locale/zh_CN';
 import { connect } from 'dva';
 import { IAPPModel } from '@/models/APPModal';
 
-const BasicLayout: React.FC = props => {
-  const { range, changeDuration } = useDuration();
+const BasicLayout: React.FC = (props) => {
+  const { duration, range, refresh, changeDuration } = useDuration();
   const { children } = props;
+
   return (
     <ConfigProvider locale={zhCN}>
       <Layout className="layout">
-        <Header />
+        <Header refresh={refresh} />
         <Layout style={{ padding: '0 24px', background: '#f0f2f5' }}>
           <Layout.Content
             style={{
@@ -22,7 +23,13 @@ const BasicLayout: React.FC = props => {
               minHeight: 280,
             }}
           >
-            {children}
+            <div>{duration.start}</div>
+            <div>{duration.end}</div>
+            <div>{duration.step}</div>
+            <div>{range[0].format('YYYY-MM-DD HH:mm:ss')}</div>
+            <div>{range[1].format('YYYY-MM-DD HH:mm:ss')}</div>
+
+            {/* {children} */}
           </Layout.Content>
         </Layout>
         <Footer range={range} changeDuration={changeDuration} />
@@ -31,9 +38,10 @@ const BasicLayout: React.FC = props => {
   );
 };
 
-export default connect((state: { APP: IAPPModel['state'] }) => {
-  return {
-    refresh: state.APP.refresh,
-    duration: state.APP.duration,
-  };
-})(BasicLayout);
+// export default connect((state: { APP: IAPPModel['state'] }) => {
+//   return {
+//     refresh: state.APP.refresh,
+//     duration: state.APP.duration,
+//   };
+// })(BasicLayout);
+export default BasicLayout;
