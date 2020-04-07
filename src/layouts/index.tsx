@@ -7,13 +7,16 @@ import zhCN from 'antd/es/locale/zh_CN';
 import { connect } from 'dva';
 import { IAPPModel } from '@/models/APPModal';
 
+const DurationContext = React.createContext();
+
 const BasicLayout: React.FC = props => {
-  const { range, changeDuration } = useDuration();
+  const { duration, range, refresh, changeDuration } = useDuration();
   const { children } = props;
+
   return (
     <ConfigProvider locale={zhCN}>
       <Layout className="layout">
-        <Header />
+        <Header refresh={refresh} />
         <Layout style={{ padding: '0 24px', background: '#f0f2f5' }}>
           <Layout.Content
             style={{
@@ -22,7 +25,7 @@ const BasicLayout: React.FC = props => {
               minHeight: 280,
             }}
           >
-            {children}
+            <DurationContext.Provider value={duration}>{children}</DurationContext.Provider>
           </Layout.Content>
         </Layout>
         <Footer range={range} changeDuration={changeDuration} />
@@ -31,9 +34,5 @@ const BasicLayout: React.FC = props => {
   );
 };
 
-export default connect((state: { APP: IAPPModel['state'] }) => {
-  return {
-    refresh: state.APP.refresh,
-    duration: state.APP.duration,
-  };
-})(BasicLayout);
+export default BasicLayout;
+export { DurationContext };
