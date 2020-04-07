@@ -34,7 +34,6 @@ export function useDuration(init = [moment().subtract(15, 'm'), moment()]) {
   const [range, setRange] = useState(initRange);
 
   const duration = useMemo(() => {
-    console.log('change');
     return getDuration(range);
   }, [range]);
 
