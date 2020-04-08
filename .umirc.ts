@@ -3,6 +3,16 @@ import { IConfig } from 'umi-types';
 // ref: https://umijs.org/config/
 const config: IConfig = {
   treeShaking: true,
+  devServer: {
+    port: 80,
+    proxy: {
+      '/aiops': {
+        target: 'http://47.111.19.122',
+        changeOrigin: true,
+        pathRewrite: { '^/aiops': '' },
+      },
+    },
+  },
   routes: [
     {
       path: '/',
