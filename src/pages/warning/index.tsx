@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
 import WarningHeader from '../../components/Warning/header';
 import WarningList from '../../components/Warning';
-import { WarnInfo } from '@/components/Warning/type';
+import { WarnInfo, WarningFilter } from '@/components/Warning/type';
 import { DurationContext } from '@/layouts';
 import { message } from 'antd';
 import request from '@/utils/request';
@@ -9,7 +9,7 @@ interface IWarningProps {
 }
 const Warning: FC<IWarningProps> = props => {
   const { duration } = useContext(DurationContext);
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<WarningFilter>({
     scope: 'All',
     keyword: '',
     pageNum: 1,
@@ -53,9 +53,18 @@ const Warning: FC<IWarningProps> = props => {
         scope: 'Endpoint',
       },
     ]; //获取后端数据并处理数据*/
-    request.get('/alarm/')
+    request.post('/alarm/', { 
+      duration,
+      keyword: filter.keyword,
+      paging: {
+        "pageNum": filter.pageNum,
+        "pageSize": 20
+      },
+      scope: filter.scope,
+    })
     .then(res => {
-      setWarningList(res);
+      setWarningList(res.item);
+      setFilter({...filter, total: res.total })
     })
     .catch(err => {
       message.error(err.message);
