@@ -8,11 +8,15 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "strict": true,
+    "strict": false,
+    "allowUnusedLabels": false,
+    "preserveConstEnums": true,
     "paths": {
       "@/*": ["src/*"],
       "@tmp/*": ["src/pages/.umi/*"]
     },
+    "allowJs": true,//是否允许编译javascript文件
+    "checkJs": true,//在 .js文件中报告错误。与 --allowJs配合使用。
     "allowSyntheticDefaultImports": true
   }
 }

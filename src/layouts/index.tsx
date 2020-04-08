@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { Layout, ConfigProvider } from 'antd';
+import moment from 'moment';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useDuration } from '../hooks/index.js';
+import { useDuration, getDuration } from '../hooks';
 import zhCN from 'antd/es/locale/zh_CN';
+import { Duration } from '@/components/Dashboard/type';
 
-const DurationContext = React.createContext();
+const DurationContext = createContext<{range: moment.Moment[], duration: Duration}>({
+  range: [moment().subtract(15, 'm'), moment()],
+  duration: getDuration([moment().subtract(15, 'm'), moment()])
+});
 
 const BasicLayout: React.FC = props => {
   const { duration, range, refresh, changeDuration } = useDuration();

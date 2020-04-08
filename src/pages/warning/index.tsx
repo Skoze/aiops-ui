@@ -1,12 +1,11 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
 import WarningHeader from '../../components/Warning/header';
 import WarningList from '../../components/Warning';
-import { Duration } from '@/components/Dashboard/type';
 import { WarnInfo } from '@/components/Warning/type';
 import { DurationContext } from '@/layouts';
+import { message } from 'antd';
+import request from '@/utils/request';
 interface IWarningProps {
-  duration: Duration;
-  refresh: number;
 }
 const Warning: FC<IWarningProps> = props => {
   const { duration } = useContext(DurationContext);
@@ -15,9 +14,9 @@ const Warning: FC<IWarningProps> = props => {
     keyword: '',
     pageNum: 1,
   });
-  const [warningList, setWarningList] = useState<WarnInfo[]>();
+  const [warningList, setWarningList] = useState<WarnInfo[]>([]);
   useEffect(() => {
-    const res = [
+    /*const res = [
       {
         id: '6',
         message:
@@ -53,8 +52,14 @@ const Warning: FC<IWarningProps> = props => {
         startTime: 1586098582180,
         scope: 'Endpoint',
       },
-    ]; //获取后端数据并处理数据
-    setWarningList(res);
+    ]; //获取后端数据并处理数据*/
+    request.get('/alarm/')
+    .then(res => {
+      setWarningList(res);
+    })
+    .catch(err => {
+      message.error(err.message);
+    })
   }, [filter, duration]);
   return (
     <div>

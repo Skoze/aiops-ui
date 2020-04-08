@@ -6,12 +6,11 @@ import {
 import PackageCard from '../package-card';
 import request from '@/utils/request';
 interface IInstancePanelProps{
-  refresh: number;
   duration: Duration;
   instance?: ServiceInstancesType;
 }
 const InstancePanel: FC<IInstancePanelProps> = props => {
-  const { refresh, duration, instance } = props;
+  const {duration, instance } = props;
   const [instanceData, setInstanceData] = useState<Array<DataPackage>>([]);
   useEffect(() => {
     request.post('/instance/', {
@@ -189,7 +188,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
     .catch(e => {
       message.error(e.message);
     });
-  }, [refresh, instance, duration]);
+  }, [instance, duration]);
   return (
     <div
       style={{

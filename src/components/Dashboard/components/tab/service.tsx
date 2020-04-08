@@ -4,12 +4,11 @@ import { DataPackage, translateToLineChart, translateToStackLineChart, Duration 
 import PackageCard from '../package-card';
 import request from '@/utils/request';
 interface IServicePanelProps{
-  refresh: number;
   duration: Duration;
   id?: string;
   }
 const ServicePanel: FC<IServicePanelProps> = props => {
-  const { refresh, duration, id = '' } = props;
+  const {duration, id = '' } = props;
   const [serviceData, setServiceData] = useState<Array<DataPackage>>([]);
   useEffect(() => {
     request.post('/service/', {
@@ -134,7 +133,7 @@ const ServicePanel: FC<IServicePanelProps> = props => {
     .catch(e => {
       message.error(e.message);
     });
-  }, [refresh, duration, id]);
+  }, [duration, id]);
   return (
     <div
       style={{

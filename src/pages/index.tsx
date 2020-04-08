@@ -3,6 +3,6 @@ import { Redirect } from 'react-router';
 
 export default function(): JSX.Element {
   return (
-    <Redirect to="/warning" />
+    <Redirect to="/dashboard" />
   );
 }

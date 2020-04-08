@@ -69,7 +69,7 @@ const OPSHeader: FC<IProps> = (props) => {
           type="primary"
           size="small"
           icon="sync"
-          onClick={refresh}
+          onClick={() => refresh()}
         >
           刷新
         </Button>

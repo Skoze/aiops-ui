@@ -4,12 +4,11 @@ import { translateToHeatMapChart, translateToStackLineChart, Duration, DataPacka
 import PackageCard from '../package-card';
 import request from '@/utils/request';
 interface IGlobalProps{
-  refresh: number;
   duration: Duration;
   id?: string;
 }
 const Global: FC<IGlobalProps> = props => {
-  const { refresh, id = '', duration } = props;
+  const { id = '', duration } = props;
   const [globalData, setGlobalData] = useState<Array<DataPackage>>([]);
   useEffect(() => {
     request.post('/global/', {
@@ -84,7 +83,7 @@ const Global: FC<IGlobalProps> = props => {
     .catch(e => {
       message.error(e.message);
     });
-  }, [refresh, id, duration]);
+  }, [ id, duration]);
   return (
     <div
       style={{
