@@ -9,7 +9,7 @@ interface IWarningProps {
   refresh: number;
 }
 const Warning: FC<IWarningProps> = props => {
-  const duration = useContext(DurationContext);
+  const { duration } = useContext(DurationContext);
   const [filter, setFilter] = useState({
     scope: 'All',
     keyword: '',

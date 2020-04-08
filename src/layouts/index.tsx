@@ -4,8 +4,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useDuration } from '../hooks/index.js';
 import zhCN from 'antd/es/locale/zh_CN';
-import { connect } from 'dva';
-import { IAPPModel } from '@/models/APPModal';
 
 const DurationContext = React.createContext();
 
@@ -25,7 +23,9 @@ const BasicLayout: React.FC = props => {
               minHeight: 280,
             }}
           >
-            <DurationContext.Provider value={duration}>{children}</DurationContext.Provider>
+            <DurationContext.Provider value={{ duration, range }}>
+              {children}
+            </DurationContext.Provider>
           </Layout.Content>
         </Layout>
         <Footer range={range} changeDuration={changeDuration} />
