@@ -6,9 +6,9 @@ export default function DurationPicker({ range, changeDuration }) {
   return (
     <DatePicker.RangePicker
       value={range}
-      format="YYYY-MM-DD HH:mm"
+      format="YYYY-MM-DD HH:mm:ss"
       onChange={changeDuration}
-      showTime={{ format: 'HHmm' }}
+      showTime={{ format: 'HHmmss' }}
       allowClear={false}
       ranges={{
         最近15分钟: [moment().subtract(15, 'minutes'), moment()],

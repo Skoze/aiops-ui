@@ -1,33 +1,42 @@
 
 :global {
   .ops_header{
-    .ops_header_center{
-      margin-block-end: 50px;
-      .header_menu{
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        .header_menu_item{
-          display: inline-block;
-          margin: 6px 20px;
-          padding: 4px 7px;
-          border-radius: 6px;
-          color: gray;
-          cursor: pointer;
-          .header_menu_item_label{
-            margin-left: 10px;
-          }
+    height: 50px;
+    padding-right: 15px;
+    padding-left: 15px;
+    display: flex;
+    justify-content: space-between;
+    .header_menu{
+      display: flex;
+      align-items: center;
+      line-height: 1.5;
+      .header_menu_item{
+        padding: 4px 10px;
+        margin-right: 20px;
+        border-radius: 6px;
+        color: #efeff1;
+        opacity: .8;
+        .header_menu_item_label{
+          margin-left: 10px;
         }
-        .header_menu_item:hover{
-          background-color: #efeff1;
-          color: black
-        }
+      }
+      .header_menu_item:hover{
+        background-color: #333844;
       }
     }
     .ops_header_refresh{
-      float:right;
-      button + button {
-        margin-left: 8px;
+      display: flex;
+      align-items: center;
+      button {
+        border-color: transparent;
+        background-color: #001529;
+        color: white;
+        margin-right: 6px;
+        margin-left: 6px;
+        font-size: 12px;
+      }
+      button:hover {
+        background-color: #333844;
       }
     }
   }

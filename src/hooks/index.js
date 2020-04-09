@@ -34,12 +34,11 @@ export function useDuration(init = [moment().subtract(15, 'm'), moment()]) {
   const [range, setRange] = useState(initRange);
 
   const duration = useMemo(() => {
-    console.log('change');
     return getDuration(range);
   }, [range]);
 
   const refresh = useCallback(() => {
-    setRange((range) => {
+    setRange(range => {
       const [fromMoment, toMoment] = range;
       const delta = moment.duration(moment().diff(toMoment));
       return [moment(fromMoment).add(delta), moment(toMoment).add(delta)];
@@ -47,7 +46,7 @@ export function useDuration(init = [moment().subtract(15, 'm'), moment()]) {
   }, []);
 
   const changeDuration = useCallback(([newFromMoment, newToMoment]) => {
-    setRange((range) => {
+    setRange(range => {
       const [fromMoment, toMoment] = range;
       if (fromMoment.isSame(newFromMoment) && toMoment.isSame(newToMoment)) {
         return range;

@@ -3,6 +3,7 @@ import { IConfig } from 'umi-types';
 // ref: https://umijs.org/config/
 const config: IConfig = {
   treeShaking: true,
+  hash: true,
   devServer: {
     port: 80,
     proxy: {
@@ -13,17 +14,7 @@ const config: IConfig = {
       },
     },
   },
-  routes: [
-    {
-      path: '/',
-      component: '../layouts/index',
-      routes: [
-        { path: '/', component: '../pages/index' },
-        { path: '/dashboard', component: '../pages/dashboard' },
-        { path: '/trace', component: '../pages/trace' },
-      ],
-    },
-  ],
+
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     [

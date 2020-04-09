@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getServices, getServiceInstances, getEndpoints } from '@/api/metadata';
 import SelectorBase from '@/components/Base/selector-base';
+import FilterBase from '@/components/Base/filter-base';
 import DurationPicker from '@/components/DurationPicker';
 import { Button } from 'antd';
 import { useDuration } from '@/hooks/index.js';
+import moment from 'moment';
 
 const defaultService = { name: 'All', id: 'ALL' };
 const defaultServiceInstance = { name: 'All', id: 'ALL' };
@@ -14,7 +16,7 @@ const traceStates = [
   { name: 'Error', id: 'ERROR' },
 ];
 
-export default function TraceSearch({ defaultQuery, onSearch }) {
+export default function TraceSearch({ defaultQuery, defaultRange, onSearch }) {
   const [services, setServices] = useState([]);
   const [serviceInstances, setServiceInstances] = useState([]);
   const [endpoints, setEndpoints] = useState([]);
@@ -27,20 +29,20 @@ export default function TraceSearch({ defaultQuery, onSearch }) {
   const [traceState, setTraceState] = useState(defaultQuery.traceState || 'ALL');
   const [maxTraceDuration, setMaxTraceDuration] = useState(defaultQuery.maxTraceDuration);
   const [minTraceDuration, setMinTraceDuration] = useState(defaultQuery.minTraceDuration);
-  const { duration, range, refresh, changeDuration } = useDuration(defaultQuery.duration);
+  const { duration, range, changeDuration } = useDuration(defaultRange || defaultQuery.duration);
 
   useEffect(() => {
-    getServices().then((data) => {
-      setServices(data.map((val) => ({ ...val, id: val.serviceId })));
+    getServices().then(data => {
+      setServices(data.map(val => ({ ...val, id: val.serviceId })));
     });
   }, []);
   useEffect(() => {
     let isFetching = true;
     setServiceInstances([]);
     if (serviceId !== defaultService.id) {
-      getServiceInstances(serviceId).then((data) => {
+      getServiceInstances(serviceId).then(data => {
         if (isFetching) {
-          setServiceInstances(data.map((val) => ({ ...val, id: val.serviceInstanceId })));
+          setServiceInstances(data.map(val => ({ ...val, id: val.serviceInstanceId })));
         }
       });
     }
@@ -53,9 +55,9 @@ export default function TraceSearch({ defaultQuery, onSearch }) {
     let isFetching = true;
     setEndpoints([]);
     if (serviceId !== defaultService.id) {
-      getEndpoints(serviceId).then((data) => {
+      getEndpoints(serviceId).then(data => {
         if (isFetching) {
-          setEndpoints(data.map((val) => ({ ...val, id: val.serviceEndpointId })));
+          setEndpoints(data.map(val => ({ ...val, id: val.serviceEndpointId })));
         }
       });
     }
@@ -69,8 +71,8 @@ export default function TraceSearch({ defaultQuery, onSearch }) {
     setTraceState('ALL');
     setMaxTraceDuration();
     setMinTraceDuration();
-    refresh();
-  }, [refresh]);
+    changeDuration([moment().subtract(15, 'm'), moment()]);
+  }, [changeDuration]);
 
   const search = useCallback(() => {
     onSearch({
@@ -95,49 +97,60 @@ export default function TraceSearch({ defaultQuery, onSearch }) {
 
   return (
     <div>
-      <SelectorBase
-        label="服务"
-        value={serviceId}
-        defaultOption={defaultService}
-        options={services}
-        onChange={setServiceId}
-      ></SelectorBase>
-      <SelectorBase
-        label="实例"
-        value={serviceInstanceId}
-        defaultOption={defaultServiceInstance}
-        options={serviceInstances}
-        onChange={setServiceInstanceId}
-      ></SelectorBase>
-      <SelectorBase
-        label="端点"
-        value={endpointId}
-        defaultOption={defaultEndpoint}
-        options={endpoints}
-        onChange={setEndpointId}
-      ></SelectorBase>
-      <SelectorBase
-        label="状态"
-        value={traceState}
-        options={traceStates}
-        onChange={setTraceState}
-      ></SelectorBase>
-      持续时间
-      <input
-        style={{ maxWidth: '3em' }}
-        value={minTraceDuration || ''}
-        onChange={(e) => setMinTraceDuration(e.target.value)}
-      ></input>
-      -
-      <input
-        style={{ maxWidth: '3em' }}
-        value={maxTraceDuration || ''}
-        onChange={(e) => setMaxTraceDuration(e.target.value)}
-      ></input>
-      ms 时间范围
-      <DurationPicker range={range} changeDuration={changeDuration}></DurationPicker>
-      <Button onClick={clear}>清空</Button>
-      <Button onClick={search}>搜索</Button>
+      <div>
+        <FilterBase label="服务">
+          <SelectorBase
+            value={serviceId}
+            defaultOption={defaultService}
+            options={services}
+            onChange={setServiceId}
+          ></SelectorBase>
+        </FilterBase>
+        <FilterBase label="实例">
+          <SelectorBase
+            value={serviceInstanceId}
+            defaultOption={defaultServiceInstance}
+            options={serviceInstances}
+            onChange={setServiceInstanceId}
+          ></SelectorBase>
+        </FilterBase>
+        <FilterBase label="端点">
+          <SelectorBase
+            value={endpointId}
+            defaultOption={defaultEndpoint}
+            options={endpoints}
+            onChange={setEndpointId}
+          ></SelectorBase>
+        </FilterBase>
+        <FilterBase label="状态">
+          <SelectorBase
+            value={traceState}
+            options={traceStates}
+            onChange={setTraceState}
+          ></SelectorBase>
+        </FilterBase>
+        <Button onClick={clear}>清空</Button>
+        <Button onClick={search}>搜索</Button>
+      </div>
+      <div>
+        <FilterBase label="持续时间">
+          <input
+            style={{ maxWidth: '3em' }}
+            value={minTraceDuration || ''}
+            onChange={e => setMinTraceDuration(e.target.value)}
+          ></input>
+          -
+          <input
+            style={{ maxWidth: '3em' }}
+            value={maxTraceDuration || ''}
+            onChange={e => setMaxTraceDuration(e.target.value)}
+          ></input>
+          ms
+        </FilterBase>
+        <FilterBase label="时间范围">
+          <DurationPicker range={range} changeDuration={changeDuration}></DurationPicker>
+        </FilterBase>
+      </div>
     </div>
   );
 }

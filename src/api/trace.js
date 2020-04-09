@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 
-export function trace({
+export function getTraces({
   duration,
   endpointId,
   maxTraceDuration,
@@ -22,4 +22,8 @@ export function trace({
     serviceInstanceId,
     traceState,
   });
+}
+
+export function getSpans({ traceId }) {
+  return request.get('/trace/span', { traceId });
 }

@@ -1,0 +1,25 @@
+.trace-detail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.trace-header {
+  padding: 0.5em 2em 1em;
+  border-bottom: 2px solid #e8e8e8;
+}
+.trace-content {
+  padding: 0.5em 2em;
+  overflow: auto;
+  flex: 1;
+}
+.trace-name.error {
+  color: #e54c17;
+}
+.trace-name {
+  font-size: 1.5em;
+  overflow-wrap: break-word;
+}
+
+.trace-data {
+  margin-right: 1em;
+}

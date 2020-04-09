@@ -1,0 +1,32 @@
+.list {
+  background-color: white;
+  overflow: auto;
+}
+.item {
+  padding: 0.6em 0.7em;
+  display: block;
+  border-left: 0.3em solid transparent;
+  cursor: pointer;
+}
+.item-name {
+  margin-bottom: 0.4em;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #448dfe;
+}
+.item-time {
+  color: #a7aebb;
+}
+.item.selected {
+  background-color: #ededed;
+}
+.item:not(.selected):hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.item.error {
+  border-left-color: #e54c17;
+}
+.item.error .item-name {
+  color: #e54c17;
+}
