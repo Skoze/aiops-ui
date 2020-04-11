@@ -83,7 +83,7 @@ const Global: FC<IGlobalProps> = props => {
     .catch(e => {
       message.error(e.message);
     });
-  }, [ id, duration]);
+  }, [id, duration]);
   return (
     <div
       style={{

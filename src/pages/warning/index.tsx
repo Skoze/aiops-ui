@@ -14,45 +14,9 @@ const Warning: FC<IWarningProps> = props => {
     keyword: '',
     pageNum: 1,
   });
+  const [total, setTotal] = useState(0);
   const [warningList, setWarningList] = useState<WarnInfo[]>([]);
   useEffect(() => {
-    /*const res = [
-      {
-        id: '6',
-        message:
-          'Response time of service instance projectA.business-zone-pid:4169@skywalking-server-0001 is more than 1000ms in last 10 minutes.',
-        startTime: 1586098582180,
-        scope: 'ServiceInstance',
-      },
-      {
-        id: '4',
-        message:
-          'Response time of service projectB.business-zone is more than 1000ms in last 10 minutes.',
-        startTime: 1586098582180,
-        scope: 'Service',
-      },
-      {
-        id: '2',
-        message:
-          'Response time of service load balancer2.system is more than 1000ms in last 10 minutes.',
-        startTime: 1586098582180,
-        scope: 'Service',
-      },
-      {
-        id: '3_L3Byb2plY3RBL3Rlc3Q=_0',
-        message:
-          'Response time of endpoint /projectA/test in load balancer1.system is more than 1000ms in last 10 minutes.',
-        startTime: 1586098582180,
-        scope: 'Endpoint',
-      },
-      {
-        id: '4_L3Byb2plY3RCL3t2YWx1ZX0=_0',
-        message:
-          'Response time of endpoint /projectB/{value} in projectB.business-zone is more than 1000ms in last 10 minutes.',
-        startTime: 1586098582180,
-        scope: 'Endpoint',
-      },
-    ]; //获取后端数据并处理数据*/
     request.post('/alarm/', { 
       duration,
       keyword: filter.keyword,
@@ -64,7 +28,7 @@ const Warning: FC<IWarningProps> = props => {
     })
     .then(res => {
       setWarningList(res.item);
-      setFilter({...filter, total: res.total })
+      setTotal(res.total)
     })
     .catch(err => {
       message.error(err.message);
@@ -72,7 +36,7 @@ const Warning: FC<IWarningProps> = props => {
   }, [filter, duration]);
   return (
     <div>
-      <WarningHeader filter={filter} onChange={f => setFilter(f)} />
+      <WarningHeader {...filter} total={total} onChange={f => setFilter(f)} />  
       <WarningList warningList={warningList} />
     </div>
   );

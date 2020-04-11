@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import { useDuration, getDuration } from '../hooks';
 import zhCN from 'antd/es/locale/zh_CN';
 import { Duration } from '@/components/Dashboard/type';
-
+import './index.less';
 const DurationContext = createContext<{range: moment.Moment[], duration: Duration}>({
   range: [moment().subtract(15, 'm'), moment()],
   duration: getDuration([moment().subtract(15, 'm'), moment()])

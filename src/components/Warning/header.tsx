@@ -1,35 +1,43 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Select, Input, Pagination } from 'antd';
 import { WarningFilter, scopeOptions } from './type';
 import FilterBase from '../Base/filter-base';
 import './header.less';
 interface IWarningHeaderProps{
-	filter: WarningFilter;
+	scope: string;
+	keyword: string;
+	pageNum: number;
+	total: number;
 	onChange: (filter: WarningFilter) => void;
 }
 const WarningHeader: FC<IWarningHeaderProps> = props => {
-	const [scope, setScope] = useState(props.filter.scope);
-	const [keyword, setKeyword] = useState(props.filter.keyword);
-	const [pageNum, setPageNum] = useState(props.filter.pageNum);
+	const { scope, keyword, pageNum, total, onChange } = props;
 	const handleChange = (label: string, value: any) => {
 		switch(label){
 			case 'scope':
-				setScope(value);
+				onChange({
+					scope: value,
+					keyword,
+  					pageNum: 1,
+				});
 				break;
 			case 'keyword':
-				setKeyword(value);
+				onChange({
+					scope,
+					keyword: value,
+  					pageNum: 1,
+				});
 				break;
 			case 'pageNum':
-				setPageNum(value);
+				onChange({
+					scope,
+					keyword: value,
+  					pageNum,
+				});
 				break;
 			default:
 				break;
 		}
-		props.onChange({
-			scope,
-  		keyword,
-  		pageNum,
-		});
 	}
 	return (
 		<div className="warning-filter">
@@ -62,7 +70,7 @@ const WarningHeader: FC<IWarningHeaderProps> = props => {
         className="warning-filter-pagination"
 				current={pageNum}
 				defaultPageSize={20}
-				total={props.filter?.total || 0}
+				total={total || 0}
 				onChange={(page, pageSize) => handleChange('pageNum', page)}
 			/>
 		</div>

@@ -1,25 +1,17 @@
-import React, { FC, useEffect, useState } from 'react';
-import ReactEchartsCore from 'echarts-for-react/lib/core';
-import echarts from 'echarts/lib/echarts';
-import 'echarts/lib/chart/bar';
-import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/title';
+import React, { FC } from 'react';
+import ReactEcharts from "echarts-for-react";
 interface IChartProps {
  series: any
 }
 const Chart: FC<IChartProps> = props => {
 	const { series } = props;
-	const [option, setOption] = useState(series);
-	useEffect(()=>{
-		setOption({ series });
-	}, [series]);
   return (
-		<ReactEchartsCore
-			echarts={echarts}
-			option={option}
+		<ReactEcharts
+			option={series}
 			notMerge={false}
 			lazyUpdate={false}
 			theme={"theme_name"}
+			style={{ height: '100%', width: '100%' }}
 		/>//notMerge不和就数据进行合并，lazyUpdate不进行立即更新
 	);
 };

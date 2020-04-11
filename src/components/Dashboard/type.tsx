@@ -111,7 +111,7 @@ export const DashBoardFilterMap: {
 export const Yseries = (num: number) => {
     const result = [];
     for (let i = 0; i < 21 ; i++) {
-        result.push(`${ i * num }ms`);
+        result.push(`${ i * num } ms`);
     }
     return result;
 }
@@ -176,6 +176,13 @@ const basicConfig = (duration: Duration) => {
                 }
             }
         },
+        grid:{
+            x: 40,
+            y: 10,
+            x2: 10,
+            y2: 40,
+            borderWidth: 10,
+        }
     }
 };
 export const translateToLineChart = (data: dateSery, duration: Duration) => {
@@ -319,6 +326,7 @@ export const translateToHeatMapChart = (heapMapdata: HeapMapData, duration: Dura
         return [item.x, item.y, item.value || '-'];
     });
     const defaultLineChart= basicConfig(duration);
+    console.log(heapMapdata.responseTimeStep, Yseries(heapMapdata.responseTimeStep));
     return {
         ...defaultLineChart,
         yAxis: {
@@ -326,11 +334,20 @@ export const translateToHeatMapChart = (heapMapdata: HeapMapData, duration: Dura
             axisLabel: {
                 interval: 4
             },
+            splitArea: {
+                show: true
+            },
             data: Yseries(heapMapdata.responseTimeStep),
+        },
+        xAxis: {
+            ...defaultLineChart.xAxis,
+            splitArea: {
+                show: true
+            },
         },
         visualMap: {
             min: 0,
-            max: maxValue,
+            max: maxValue ? maxValue : 1,
             show: false,
             inRange: {
                 color: ['white', 'red', 'darkRed'],
