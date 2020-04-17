@@ -1,10 +1,14 @@
-import { Empty, Tag } from 'antd';
+import { Empty, Tag, Drawer } from 'antd';
 import { useState, useEffect } from 'react';
 import { getSpans } from '@/api/trace';
 import styles from './trace-detail.css';
+import TraceTree from './trace-tree';
+import SpanDetail from './span-detail';
 
 export default function TraceDetail({ trace }) {
   const [spans, setSpans] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [showDrawer, setShowDrawer] = useState(false);
   useEffect(() => {
     let isFetching = true;
     if (trace) {
@@ -38,7 +42,26 @@ export default function TraceDetail({ trace }) {
             <span className={styles['trace-data']}>{spans.length}</span>
           </div>
         </div>
-        <div className={styles['trace-content']}></div>
+        <div className={styles['trace-content']}>
+          <TraceTree
+            spans={spans}
+            onSelect={val => {
+              setSelected(val);
+              setShowDrawer(true);
+            }}
+          ></TraceTree>
+        </div>
+        <Drawer
+          title="跨度信息"
+          placement="left"
+          visible={showDrawer}
+          width="fit-content"
+          drawerStyle={{ minWidth: '40vw', maxWidth: '100vw' }}
+          destroyOnClose
+          onClose={() => setShowDrawer(false)}
+        >
+          <SpanDetail span={selected}></SpanDetail>
+        </Drawer>
       </div>
     );
   }

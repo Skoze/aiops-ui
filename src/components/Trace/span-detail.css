@@ -1,0 +1,33 @@
+.span-detail-container {
+  overflow: hidden;
+  height: 100%;
+}
+.item {
+  margin-top: 1em;
+}
+.item-title {
+  color: #aaa;
+}
+.item-content {
+  font-weight: normal;
+}
+.log {
+  min-width: 50vw;
+  width: 40em;
+  max-width: 100%;
+}
+.log-key {
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+.log-stack {
+  max-height: 10em;
+  white-space: pre;
+  overflow: auto;
+  /* background-color: #fafafa; */
+  background-color: #333;
+  color: #eee;
+  border: 1px solid #ccc;
+  margin-top: 1em;
+  padding: 0.3em 1em;
+}
