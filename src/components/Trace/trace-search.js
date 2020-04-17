@@ -4,7 +4,7 @@ import SelectorBase from '@/components/Base/selector-base';
 import FilterBase from '@/components/Base/filter-base';
 import DurationPicker from '@/components/DurationPicker';
 import { Button, Icon, Input } from 'antd';
-import { useDuration } from '@/hooks/index.js';
+import { useDuration } from '@/hooks';
 import moment from 'moment';
 import styles from './trace-search.css';
 

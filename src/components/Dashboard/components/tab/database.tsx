@@ -6,12 +6,11 @@ import PackageCard from '../package-card';
 import { message } from 'antd';
 import request from '@/utils/request';
 interface IDatabasePanelProps{
-  refresh: number;
   duration: Duration;
   id?: string;
 }
 const DatabasePanel: FC<IDatabasePanelProps> = props => {
-  const { refresh, duration, id = '' } = props;
+  const { duration, id = '' } = props;
   const [databaseData, setDatabaseData] = useState<Array<DataPackage>>([]);
   useEffect(() => {
     request.post('/database/', {
@@ -126,7 +125,7 @@ const DatabasePanel: FC<IDatabasePanelProps> = props => {
     .catch(e => {
       message.error(e.message);
     });
-  }, [refresh, duration, id]);
+  }, [duration, id]);
   return (
     <div
       style={{

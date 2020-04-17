@@ -1,20 +1,18 @@
 import { IConfig } from 'umi-types';
-
+const swagger = 'http://47.111.19.122';
+const useDebugServer = swagger;
 // ref: https://umijs.org/config/
 const config: IConfig = {
   treeShaking: true,
   hash: true,
-  devServer: {
-    port: 80,
-    proxy: {
-      '/aiops': {
-        target: 'http://47.111.19.122',
-        changeOrigin: true,
-        pathRewrite: { '^/aiops': '' },
-      },
+  proxy: {
+    '/aiops': {
+      target: useDebugServer,
+      changeOrigin: true,
+      logLevel: 'debug',
+      pathRewrite: { '^/aiops': '' },
     },
   },
-
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     [
@@ -38,6 +36,7 @@ const config: IConfig = {
       },
     ],
   ],
+  ignoreMomentLocale: true,
 };
 
 export default config;

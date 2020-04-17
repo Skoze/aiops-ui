@@ -1,7 +1,8 @@
 import moment from 'moment';
 import { useState, useCallback, useMemo } from 'react';
+import { Duration, Step } from '@/components/Dashboard/type';
 
-const steps = ['MONTH', 'DAY', 'HOUR', 'MINUTE'];
+const steps = [Step.MONTH, Step.DAY, Step.HOUR, Step.MINUTE];
 
 const pattern = {
   MONTH: 'YYYY-MM',
@@ -10,7 +11,7 @@ const pattern = {
   MINUTE: 'YYYY-MM-DD HHmm',
 };
 
-function getDuration([fromMoment, toMoment]) {
+export function getDuration([fromMoment, toMoment]): Duration {
   const diff = moment.duration(toMoment.diff(fromMoment));
   for (let index = 0; index < steps.length; index++) {
     const step = steps[index];

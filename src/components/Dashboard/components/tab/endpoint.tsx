@@ -4,12 +4,11 @@ import { DataPackage, translateToLineChart, translateToStackLineChart, Duration,
 import PackageCard from '../package-card';
 import request from '@/utils/request';
 interface IEndpointPanelProps{
-  refresh: number;
   duration: Duration;
   id?: string;
 }
 const EndpointPanel: FC<IEndpointPanelProps> = props => {
-  const { refresh, duration, id = '' } = props;
+  const { duration, id = '' } = props;
   const [endpointData, setEndpointData] = useState<Array<DataPackage>>([]);
   useEffect(() => {
     request.post('/endpoint/', {
@@ -144,7 +143,7 @@ const EndpointPanel: FC<IEndpointPanelProps> = props => {
     .catch(e => {
       message.error(e.message);
     });
-  }, [refresh, id, duration]);
+  }, [id, duration]);
   return (
     <div
       style={{

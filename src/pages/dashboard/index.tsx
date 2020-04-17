@@ -1,22 +1,20 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useContext } from 'react';
 import { Tabs, message } from 'antd';
 import _ from 'lodash';
 import DashBoardHeader from '@/components/Dashboard/components/header';
-import { DashBoardFilter, Duration, ServiceInstancesType } from '@/components/Dashboard/type';
+import { DashBoardFilter, ServiceInstancesType } from '@/components/Dashboard/type';
 import request from '@/utils/request';
 import Global from '@/components/Dashboard/components/tab/global';
 import ServicePanel from '@/components/Dashboard/components/tab/service';
 import DatabasePanel from '@/components/Dashboard/components/tab/database';
 import InstancePanel from '@/components/Dashboard/components/tab/serviceInstance';
 import EndpointPanel from '@/components/Dashboard/components/tab/endpoint';
-import { connect } from 'dva';
-import { IAPPModel } from '@/models/APPModal';
+import { DurationContext } from '@/layouts';
 interface IDashboardProps {
-  duration: Duration;
-  refresh: number;
+
 }
 const Dashboard: FC<IDashboardProps> = props => {
-  const { duration, refresh } = props;
+  const { duration } = useContext(DurationContext);
   const [filter, setFilter] = useState<DashBoardFilter>({ type: '1'});
   const [selectedIds, setSelectedIds] = useState<DashBoardFilter>();
   const [services, setServices] = useState();
@@ -121,7 +119,6 @@ const Dashboard: FC<IDashboardProps> = props => {
         {
           filter.hasOwnProperty('type') &&
           <Global
-            refresh={refresh}
             duration={duration}
             id={filter?.type}
           />
@@ -131,7 +128,6 @@ const Dashboard: FC<IDashboardProps> = props => {
           {
             filter.hasOwnProperty('service') &&
             <ServicePanel
-              refresh={refresh}
               duration={duration}
               id={filter.service}
             />
@@ -141,7 +137,6 @@ const Dashboard: FC<IDashboardProps> = props => {
           {
             filter.hasOwnProperty('endpoint') &&
             <EndpointPanel
-              refresh={refresh}
               duration={duration}
               id={filter.endpoint}
             />
@@ -151,7 +146,6 @@ const Dashboard: FC<IDashboardProps> = props => {
         {
           filter.hasOwnProperty('type') &&
           <InstancePanel
-            refresh={refresh}
             duration={duration}
             instance={_.find(serviceInstances, (instance: ServiceInstancesType) => String(instance.serviceInstanceId) === filter?.endpoint)}
           />
@@ -166,7 +160,6 @@ const Dashboard: FC<IDashboardProps> = props => {
             {
               filter.hasOwnProperty('type') &&
               <Global
-                refresh={refresh}
                 duration={duration}
                 id={filter?.type}
               />
@@ -176,7 +169,6 @@ const Dashboard: FC<IDashboardProps> = props => {
           {
               filter.hasOwnProperty('database') &&
               <DatabasePanel
-                refresh={refresh}
                 duration={duration}
                 id={filter.database}
               />
@@ -187,8 +179,4 @@ const Dashboard: FC<IDashboardProps> = props => {
     </div>
   );
 };
-export default connect((state: { APP: IAPPModel['state'] }) => {
-  return {
-    refresh: state.APP.refresh,
-  };
-})(Dashboard);
+export default Dashboard;
