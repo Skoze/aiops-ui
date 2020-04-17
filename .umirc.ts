@@ -4,7 +4,17 @@ import { IConfig } from 'umi-types';
 const config: IConfig = {
   treeShaking: true,
   hash: true,
-  
+  devServer: {
+    port: 80,
+    proxy: {
+      '/aiops': {
+        target: 'http://47.111.19.122',
+        changeOrigin: true,
+        pathRewrite: { '^/aiops': '' },
+      },
+    },
+  },
+
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     [

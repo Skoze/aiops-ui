@@ -4,34 +4,23 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useDuration } from '../hooks/index.js';
 import zhCN from 'antd/es/locale/zh_CN';
-import { connect } from 'dva';
-import { IAPPModel } from '@/models/APPModal';
+import styles from './index.css';
 
-const BasicLayout: React.FC = (props) => {
+const DurationContext = React.createContext();
+
+const BasicLayout: React.FC = props => {
   const { duration, range, refresh, changeDuration } = useDuration();
   const { children } = props;
 
   return (
     <ConfigProvider locale={zhCN}>
-      <Layout className="layout">
+      <Layout className={styles.layout}>
         <Header refresh={refresh} />
-        <Layout style={{ padding: '0 24px', background: '#f0f2f5' }}>
-          <Layout.Content
-            style={{
-              padding: '0px 0px 24px 0px',
-              margin: 0,
-              minHeight: 280,
-            }}
-          >
-            <div>{duration.start}</div>
-            <div>{duration.end}</div>
-            <div>{duration.step}</div>
-            <div>{range[0].format('YYYY-MM-DD HH:mm:ss')}</div>
-            <div>{range[1].format('YYYY-MM-DD HH:mm:ss')}</div>
-
-            {/* {children} */}
-          </Layout.Content>
-        </Layout>
+        <Layout.Content className={styles.content}>
+          <DurationContext.Provider value={{ duration, range }}>
+            {children}
+          </DurationContext.Provider>
+        </Layout.Content>
         <Footer range={range} changeDuration={changeDuration} />
       </Layout>
     </ConfigProvider>
@@ -45,3 +34,4 @@ const BasicLayout: React.FC = (props) => {
 //   };
 // })(BasicLayout);
 export default BasicLayout;
+export { DurationContext };

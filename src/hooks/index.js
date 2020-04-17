@@ -25,11 +25,15 @@ function getDuration([fromMoment, toMoment]) {
   }
 }
 
-export function useDuration(initRange = [moment().subtract(15, 'm'), moment()]) {
+export function useDuration(init = [moment().subtract(15, 'm'), moment()]) {
+  const { start, end, step } = init;
+  let initRange = init;
+  if (start && end && step) {
+    initRange = [moment(start, pattern[step]), moment(end, pattern[step])];
+  }
   const [range, setRange] = useState(initRange);
 
   const duration = useMemo(() => {
-    console.log('change');
     return getDuration(range);
   }, [range]);
 
