@@ -1,46 +1,43 @@
-@baseColor: #27303e;
-@headFontColor: #ffffff;
 
 :global {
-  .header, .logo, .info {
+  .ops_header{
+    height: 50px;
+    padding-right: 15px;
+    padding-left: 15px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-  }
-
-  .title {
-    display: inline-block;
-    width: 100px;
-    font-size: 20px;
-    margin-left: 20px;
-    color: @headFontColor;
-
-    &:hover {
-      color: @headFontColor;
+    .header_menu{
+      display: flex;
+      align-items: center;
+      line-height: 1.5;
+      .header_menu_item{
+        padding: 4px 10px;
+        margin-right: 20px;
+        border-radius: 6px;
+        color: #efeff1;
+        opacity: .8;
+        .header_menu_item_label{
+          margin-left: 10px;
+        }
+      }
+      .header_menu_item:hover{
+        background-color: #333844;
+      }
     }
-  }
-
-  .info {
-    margin-right: 20px;
-
-    span {
-      color: @headFontColor;
+    .ops_header_refresh{
+      display: flex;
+      align-items: center;
+      button {
+        border-color: transparent;
+        background-color: #001529;
+        color: white;
+        margin-right: 6px;
+        margin-left: 6px;
+        font-size: 12px;
+      }
+      button:hover {
+        background-color: #333844;
+      }
     }
-  }
-
-  .ant-layout-header {
-    height: 56px;
-    background: @baseColor;
-    padding: 0;
-    box-shadow: 1px 1px 10px grey;
-    z-index: 1;
-  }
-
-  .ant-menu-dark.ant-menu-horizontal {
-    background: @baseColor;
-  }
-
-  .ant-menu-horizontal {
-    line-height: 56px;
   }
 }

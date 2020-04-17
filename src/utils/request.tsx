@@ -32,16 +32,15 @@ const clientConfig: AxiosRequestConfig = {
 
 function responseHandler(res: AxiosResponse & IResponse) {
   if (res.status === 200) {
-    const { code, data, message: msg } = res.data;
-
-    if (SUCCESS_CODE === code) {
+    const { data, status, statusText: msg } = res;
+    if (SUCCESS_CODE === status) {
       // 对于特殊操作只有 code 和 message
       return data || res;
     }
 
-    if (ERROR_CODE === code || code === 403) {
+    if (ERROR_CODE === status || status === 403) {
       const error = {
-        code,
+        status,
         message: msg,
       };
       return Promise.reject(error);
