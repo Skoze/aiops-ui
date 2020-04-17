@@ -52,7 +52,7 @@ export default function Trace() {
 
   return (
     <div className={styles['container']}>
-      <div className={styles['card']} style={{ padding: '0.6em' }}>
+      <div className={styles['card']}>
         <TraceSearch
           defaultQuery={query}
           defaultRange={range}

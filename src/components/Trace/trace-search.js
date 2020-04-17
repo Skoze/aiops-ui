@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { getServices, getServiceInstances, getEndpoints } from '@/api/metadata';
 import SelectorBase from '@/components/Base/selector-base';
 import FilterBase from '@/components/Base/filter-base';
 import DurationPicker from '@/components/DurationPicker';
-import { Button } from 'antd';
+import { Button, Icon, Input } from 'antd';
 import { useDuration } from '@/hooks/index.js';
 import moment from 'moment';
+import styles from './trace-search.css';
 
 const defaultService = { name: 'All', id: 'ALL' };
 const defaultServiceInstance = { name: 'All', id: 'ALL' };
@@ -66,90 +67,115 @@ export default function TraceSearch({ defaultQuery, defaultRange, onSearch }) {
     };
   }, [serviceId]);
 
-  const clear = useCallback(() => {
-    setServiceId('ALL');
-    setTraceState('ALL');
-    setMaxTraceDuration();
-    setMinTraceDuration();
-    changeDuration([moment().subtract(15, 'm'), moment()]);
-  }, [changeDuration]);
-
-  const search = useCallback(() => {
-    onSearch({
-      serviceId: serviceId === 'ALL' ? undefined : serviceId,
-      serviceInstanceId: serviceInstanceId === 'ALL' ? undefined : serviceInstanceId,
-      endpointId: endpointId === 'ALL' ? undefined : endpointId,
-      traceState,
-      duration,
-      minTraceDuration: parseInt(minTraceDuration) || undefined,
-      maxTraceDuration: parseInt(maxTraceDuration) || undefined,
-    });
-  }, [
-    serviceId,
-    serviceInstanceId,
-    endpointId,
-    traceState,
-    duration,
-    minTraceDuration,
-    maxTraceDuration,
-    onSearch,
-  ]);
-
+  console.log('rerender');
   return (
-    <div>
+    <div className={styles['container']}>
       <div>
-        <FilterBase label="服务">
-          <SelectorBase
-            value={serviceId}
-            defaultOption={defaultService}
-            options={services}
-            onChange={setServiceId}
-          ></SelectorBase>
-        </FilterBase>
-        <FilterBase label="实例">
-          <SelectorBase
-            value={serviceInstanceId}
-            defaultOption={defaultServiceInstance}
-            options={serviceInstances}
-            onChange={setServiceInstanceId}
-          ></SelectorBase>
-        </FilterBase>
-        <FilterBase label="端点">
-          <SelectorBase
-            value={endpointId}
-            defaultOption={defaultEndpoint}
-            options={endpoints}
-            onChange={setEndpointId}
-          ></SelectorBase>
-        </FilterBase>
-        <FilterBase label="状态">
-          <SelectorBase
-            value={traceState}
-            options={traceStates}
-            onChange={setTraceState}
-          ></SelectorBase>
-        </FilterBase>
-        <Button onClick={clear}>清空</Button>
-        <Button onClick={search}>搜索</Button>
+        <div>
+          <FilterBase label="服务">
+            <SelectorBase
+              value={serviceId}
+              defaultOption={defaultService}
+              options={services}
+              onChange={setServiceId}
+            ></SelectorBase>
+          </FilterBase>
+          <FilterBase label="实例">
+            <SelectorBase
+              value={serviceInstanceId}
+              defaultOption={defaultServiceInstance}
+              options={serviceInstances}
+              onChange={setServiceInstanceId}
+            ></SelectorBase>
+          </FilterBase>
+          <FilterBase label="端点">
+            <SelectorBase
+              value={endpointId}
+              defaultOption={defaultEndpoint}
+              options={endpoints}
+              onChange={setEndpointId}
+            ></SelectorBase>
+          </FilterBase>
+          <FilterBase label="状态">
+            <SelectorBase
+              value={traceState}
+              options={traceStates}
+              onChange={setTraceState}
+            ></SelectorBase>
+          </FilterBase>
+        </div>
+        <div>
+          <FilterBase label="持续时间">
+            <Input.Group compact>
+              <Input
+                style={{ width: '5em', textAlign: 'center' }}
+                value={minTraceDuration || ''}
+                onChange={e => setMinTraceDuration(e.target.value)}
+              />
+              <Input
+                style={{
+                  width: '1em',
+                  textAlign: 'center',
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                  borderLeft: 'none',
+                  pointerEvents: 'none',
+                  backgroundColor: '#fff',
+                }}
+                placeholder="~"
+                disabled
+              />
+              <Input
+                style={{ width: '5em', borderLeft: 'none', textAlign: 'center' }}
+                value={maxTraceDuration || ''}
+                onChange={e => setMaxTraceDuration(e.target.value)}
+              />
+              <Input
+                style={{
+                  width: '3em',
+                  borderLeft: 'none',
+                  pointerEvents: 'none',
+                  backgroundColor: '#fff',
+                }}
+                placeholder="ms"
+                disabled
+              />
+            </Input.Group>
+          </FilterBase>
+          <FilterBase label="时间范围">
+            <DurationPicker range={range} changeDuration={changeDuration}></DurationPicker>
+          </FilterBase>
+        </div>
       </div>
-      <div>
-        <FilterBase label="持续时间">
-          <input
-            style={{ maxWidth: '3em' }}
-            value={minTraceDuration || ''}
-            onChange={e => setMinTraceDuration(e.target.value)}
-          ></input>
-          -
-          <input
-            style={{ maxWidth: '3em' }}
-            value={maxTraceDuration || ''}
-            onChange={e => setMaxTraceDuration(e.target.value)}
-          ></input>
-          ms
-        </FilterBase>
-        <FilterBase label="时间范围">
-          <DurationPicker range={range} changeDuration={changeDuration}></DurationPicker>
-        </FilterBase>
+      <div className={styles['options']}>
+        <Button
+          onClick={() => {
+            setServiceId('ALL');
+            setTraceState('ALL');
+            setMaxTraceDuration();
+            setMinTraceDuration();
+            changeDuration([moment().subtract(15, 'm'), moment()]);
+          }}
+        >
+          <Icon type="delete" />
+          <span>清空</span>
+        </Button>
+        <Button
+          onClick={() => {
+            onSearch({
+              serviceId: serviceId === 'ALL' ? undefined : serviceId,
+              serviceInstanceId: serviceInstanceId === 'ALL' ? undefined : serviceInstanceId,
+              endpointId: endpointId === 'ALL' ? undefined : endpointId,
+              traceState,
+              duration,
+              minTraceDuration: parseInt(minTraceDuration) || undefined,
+              maxTraceDuration: parseInt(maxTraceDuration) || undefined,
+            });
+          }}
+        >
+          <Icon type="search" />
+          <span>搜索</span>
+        </Button>
       </div>
     </div>
   );
