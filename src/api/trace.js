@@ -24,6 +24,6 @@ export function getTraces({
   });
 }
 
-export function getSpans({ traceId }) {
+export function getSpans(traceId) {
   return request.get('/trace/span', { traceId });
 }
