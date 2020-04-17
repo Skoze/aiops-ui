@@ -1,5 +1,6 @@
 import Trace from './d3-trace';
 import { useRef, useEffect } from 'react';
+import { Spin } from 'antd';
 export default function TraceTree({ spans, onSelect }) {
   const tree = useRef();
   const trace = useRef();
@@ -13,7 +14,12 @@ export default function TraceTree({ spans, onSelect }) {
   useEffect(() => {
     trace.current.render(buildTree(spans), spans);
   }, [spans]);
-  return <div ref={tree}></div>;
+
+  return (
+    <Spin spinning={!spans.length} delay={500} size="large">
+      <div ref={tree} />
+    </Spin>
+  );
 }
 
 function buildTree(spans) {
