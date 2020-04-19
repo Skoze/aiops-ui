@@ -4,6 +4,9 @@ import { IConfig } from 'umi-types';
 const config: IConfig = {
   treeShaking: true,
   hash: true,
+  mock: {
+    exclude: ['mock/**.json'],
+  },
   devServer: {
     port: 80,
     proxy: {
