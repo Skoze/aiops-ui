@@ -1,8 +1,18 @@
-.svg {
-  background-color: #3d444f;
+.container {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
+}
+.service-selector {
+  position: absolute;
+  right: 2em;
+  top: 1em;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff1;
+}
+.svg {
+  background-color: #3d444f;
 }

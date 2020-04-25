@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import d3tip from 'd3-tip';
-import styles from './index.css';
+import styles from './graph.css';
 
 export default class TopoGraph {
   constructor(selector) {
@@ -18,8 +18,8 @@ export default class TopoGraph {
       .html(d => d.name);
     this.graph.call(this.tip);
 
-    this.nodes = this.graph.append('g').selectAll();
     this.links = this.graph.append('g').selectAll();
+    this.nodes = this.graph.append('g').selectAll();
     this.data = { nodes: [], links: [] };
 
     this.selected = null;
@@ -90,8 +90,8 @@ export default class TopoGraph {
       .append('circle')
       .attr('class', styles['circle'])
       .attr('r', 24)
-      .filter(d => d.isReal);
-    // .attr('stroke', '#999');
+      .filter(d => d.isReal)
+      .attr('stroke', '#999');
 
     enter
       .append('image')
