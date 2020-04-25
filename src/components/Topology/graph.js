@@ -30,7 +30,7 @@ export default class TopoGraph {
     const centerY = parseInt(this.svg.style('height')) >> 1;
     diff(this.data.nodes, nodes);
     d3.forceSimulation()
-      .force('collide', d3.forceCollide().radius(() => 50))
+      .force('collide', d3.forceCollide().radius(() => 65))
       .force('x', d3.forceX(centerX))
       .force('y', d3.forceY(centerY))
       .nodes(nodes)
@@ -58,7 +58,7 @@ export default class TopoGraph {
     this.nodes = nodes.merge(enter);
     exit
       .transition()
-      .duration(400)
+      .duration(200)
       .style('opacity', 0)
       .remove();
     enter
@@ -84,7 +84,7 @@ export default class TopoGraph {
       )
       .style('opacity', 0)
       .transition()
-      .duration(800)
+      .duration(400)
       .style('opacity', 1);
     enter
       .append('circle')
@@ -121,14 +121,14 @@ export default class TopoGraph {
 
     exit
       .transition()
-      .duration(400)
+      .duration(200)
       .style('opacity', 0)
       .remove();
     enter
       .attr('class', styles['link'])
       .style('opacity', 0)
       .transition()
-      .duration(800)
+      .duration(400)
       .style('opacity', 1);
   }
 
