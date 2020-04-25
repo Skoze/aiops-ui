@@ -5,11 +5,12 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useDuration, getDuration } from '../hooks';
 import zhCN from 'antd/es/locale/zh_CN';
+import styles from './index.css';
 import { Duration } from '@/components/Dashboard/type';
-import './index.less';
-const DurationContext = createContext<{range: moment.Moment[], duration: Duration}>({
+
+const DurationContext = createContext<{ range: moment.Moment[]; duration: Duration }>({
   range: [moment().subtract(15, 'm'), moment()],
-  duration: getDuration([moment().subtract(15, 'm'), moment()])
+  duration: getDuration([moment().subtract(15, 'm'), moment()]),
 });
 
 const BasicLayout: React.FC = props => {
@@ -18,21 +19,13 @@ const BasicLayout: React.FC = props => {
 
   return (
     <ConfigProvider locale={zhCN}>
-      <Layout className="layout">
+      <Layout className={styles.layout}>
         <Header refresh={refresh} />
-        <Layout style={{ padding: '0 24px', background: '#f0f2f5' }}>
-          <Layout.Content
-            style={{
-              padding: '0px 0px 24px 0px',
-              margin: 0,
-              minHeight: 280,
-            }}
-          >
-            <DurationContext.Provider value={{ duration, range }}>
-              {children}
-            </DurationContext.Provider>
-          </Layout.Content>
-        </Layout>
+        <Layout.Content className={styles.content}>
+          <DurationContext.Provider value={{ duration, range }}>
+            {children}
+          </DurationContext.Provider>
+        </Layout.Content>
         <Footer range={range} changeDuration={changeDuration} />
       </Layout>
     </ConfigProvider>

@@ -6,12 +6,12 @@ const config: IConfig = {
   treeShaking: true,
   hash: true,
   proxy: {
-    '/*/**': {
-        target: useDebugServer,
-        changeOrigin: true,
-        logLevel: 'debug',
-        "pathRewrite": { "^/aiops" : "" }
-      },
+    '/aiops': {
+      target: useDebugServer,
+      changeOrigin: true,
+      logLevel: 'debug',
+      pathRewrite: { '^/aiops': '' },
+    },
   },
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
