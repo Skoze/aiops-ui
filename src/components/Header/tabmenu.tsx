@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Icon } from 'antd';
 import Link from 'umi/link';
+import logo from '../../assets/logo.png';
 interface IMenuProps {
   menu: Array<{icon: string; label: string; url: string}>;
 }
@@ -9,7 +10,7 @@ const TabMenu: FC<IMenuProps> = props => {
   const { menu } = props;
   return (
     <div className="header_menu">
-      <img src="log.jpeg" alt="aiops" height={20} width={100} />
+      <img src={logo} alt="aiops" height={60} style={{ marginRight: '20px' }} />
       {
         menu.map(item => {
           return (
