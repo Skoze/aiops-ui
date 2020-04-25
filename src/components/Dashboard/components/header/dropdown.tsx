@@ -23,7 +23,7 @@ const DropDownSelect: FC<IDropDownSelectProps> = props => {
     </Menu>
   );
   return (
-    <div style={{ display: 'inline-flex', margin: '15px 10px', width: '150px'}}>
+    <div style={{ display: 'inline-flex', margin: '15px 10px', width: '180px'}}>
       <FilterBase label={`当前${DashBoardFilterMap[`${type}`]}`}>
         <Dropdown overlay={menu}>
           <a
@@ -31,7 +31,7 @@ const DropDownSelect: FC<IDropDownSelectProps> = props => {
             onClick={e => e.preventDefault()}
           >
             <span>
-              {elipsis(_.find(choises, choise => String(choise[`${idName}`]) === target)?.name, 15)}
+              {elipsis(_.find(choises, choise => String(choise[`${idName}`]) === String(target))?.name, 12)}
             </span>
           </a>
         </Dropdown>

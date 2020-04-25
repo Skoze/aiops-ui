@@ -21,7 +21,7 @@ const Dashboard: FC<IDashboardProps> = props => {
   const [services, setServices] = useState();
   const [databases, setDatabases] = useState();
   const [endpoints, setEndpoints] = useState();
-  const [serviceInstances, setServiceInstances] = useState();
+  const [serviceInstances, setServiceInstances] = useState([]);
   const onFilterChange = (type: string, value: string) => {
     let tempFilter: DashBoardFilter = { type: filter.type };
     switch (type) {
@@ -55,7 +55,6 @@ const Dashboard: FC<IDashboardProps> = props => {
     .then(res => {
       setDatabases(res[0]);
       setServices(res[1]);
-      setSelectedIds({ ...selectedIds, database: res[0][0].databaseId, service: res[1][0].serviceId })
       Promise.all([
         request.get('/metadata/getEndpoints', { service_id: res[1][0].serviceId }),
         request.get('/metadata/getServiceInstances', { service_id: res[1][0].serviceId }),
@@ -63,7 +62,7 @@ const Dashboard: FC<IDashboardProps> = props => {
       .then(response => {
         setEndpoints(response[0]);
         setServiceInstances(response[1]);
-        setSelectedIds({ ...selectedIds, endpoint: res[0][0].serviceEndpointId, serviceInstance: res[1][0].serviceInstanceId })
+        setSelectedIds({ database: res[0][0].databaseId, service: res[1][0].serviceId, endpoint: response[0][0].serviceEndpointId, serviceInstance: response[1][0].serviceInstanceId });
       })
       .catch(e => {
           message.error(e.message);
@@ -72,7 +71,7 @@ const Dashboard: FC<IDashboardProps> = props => {
     .catch(e => {
       message.error(e.message);
     });
-  }, [selectedIds]);
+  }, []);
   const requestHeader = (id: string) => {
     Promise.all([
       request.get('/metadata/getEndpoints', { service_id: id }),
@@ -81,6 +80,7 @@ const Dashboard: FC<IDashboardProps> = props => {
       .then(res => {
         setEndpoints(res[0]);
         setServiceInstances(res[1]);
+        setSelectedIds({ ...selectedIds, endpoint: res[0][0].serviceEndpointId, serviceInstance: res[1][0].serviceInstanceId });
       })
       .catch(e => {
         message.error(e.message);
@@ -146,10 +146,12 @@ const Dashboard: FC<IDashboardProps> = props => {
         </Tabs.TabPane>
         <Tabs.TabPane tab="Instance" key="1-4" className="dashboard-tabpane">
         {
-          filter.hasOwnProperty('type') &&
+          filter.hasOwnProperty('serviceInstance') &&
           <InstancePanel
             duration={duration}
-            instance={_.find(serviceInstances, (instance: ServiceInstancesType) => String(instance.serviceInstanceId) === filter?.endpoint)}
+            instance={serviceInstances.find((instance: ServiceInstancesType) => {
+              return String(instance.serviceInstanceId) === String(filter?.serviceInstance);
+            })}
           />
         }
       </Tabs.TabPane>

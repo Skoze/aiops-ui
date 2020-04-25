@@ -14,6 +14,7 @@ const ServicePanel: FC<IServicePanelProps> = props => {
     request.post('/service/', {
       duration,
       id,
+      business: '',
     }).then(res => {
       const result: Array<DataPackage> = [];
       Object.keys(res).forEach(key => {
@@ -28,7 +29,7 @@ const ServicePanel: FC<IServicePanelProps> = props => {
                 { name: 'serviceApdexScore', values: res.serviceApdexScore },
                 duration
               ),
-              avg: res.serviceApdexScore.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.serviceApdexScore.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Service Avg ApdexScore',
             });
             break;
@@ -42,7 +43,7 @@ const ServicePanel: FC<IServicePanelProps> = props => {
                 { name: 'serviceResponseTime', values: res.serviceResponseTime },
                 duration
               ),
-              avg: res.serviceResponseTime.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.serviceResponseTime.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Service Avg ResponseTime',
             })
             break;
@@ -56,7 +57,7 @@ const ServicePanel: FC<IServicePanelProps> = props => {
                 { name: 'serviceResponseTime' , values: res.serviceResponseTime },
                 duration
               ),
-              avg: res.serviceResponseTime.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.serviceResponseTime.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Service Avg ResponseTime',
             });
             break;
@@ -70,7 +71,7 @@ const ServicePanel: FC<IServicePanelProps> = props => {
                 { name: 'serviceSLA', values: res.serviceSLA },
                 duration
               ),
-              avg: res.serviceSLA.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.serviceSLA.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Service Avg SLA',
             });
             break;
@@ -119,7 +120,7 @@ const ServicePanel: FC<IServicePanelProps> = props => {
               label: 'Running ServiceInstance',
               type: 'line', // chart, avgChart, line, info, brief
               unit: 'ms',
-              style: { height: '250px', width: '50%'},
+              style: { height: '250px', width: '25%'},
               value: res.serviceInstanceThroughput,
               color: 'rgb(191, 153, 248)',
             });
@@ -138,6 +139,10 @@ const ServicePanel: FC<IServicePanelProps> = props => {
     <div
       style={{
         padding: '20px 15px',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
       }}
     >
       {

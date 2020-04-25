@@ -13,6 +13,7 @@ const Global: FC<IGlobalProps> = props => {
   useEffect(() => {
     request.post('/global/', {
       duration,
+      business: '',
     }).then(res => {
       const result: Array<DataPackage> = [];
       Object.keys(res).forEach(key => {
@@ -30,17 +31,17 @@ const Global: FC<IGlobalProps> = props => {
               }, duration),
             });
             break;
-          case 'globalPercentile':
+          case 'percentileGraph':
             result.push({
               label: 'Global Response Time Percentile',
               type: 'chart', // chart, avgChart, line, info, brief
               unit: '',
               style: { height: '250px', width: '50%'},
               value: translateToStackLineChart(
-                Object.keys(res.globalPercentile).map(key => {
+                Object.keys(res.percentileGraph).map(key => {
                   return {
                     name: key,
-                    values: res.globalPercentile[`${key}`],
+                    values: res.percentileGraph[`${key}`],
                   }
                 }), duration),
             });
@@ -88,6 +89,10 @@ const Global: FC<IGlobalProps> = props => {
     <div
       style={{
         padding: '20px 15px',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
       }}
     >
       {

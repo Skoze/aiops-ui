@@ -8,7 +8,12 @@ interface ITimeLineProps {
 }
 const TimeLine: FC<ITimeLineProps> = props => {
 	const { data = [], unit = '%', color = 'inherit' } = props;
-	const max = data[0].value;
+	const max = data.reduce((p, c) => {
+    if (p < Number(c.value)) {
+      return c.value;
+    }
+    return p;
+  }, 0);
   return (
     <div
       style={{

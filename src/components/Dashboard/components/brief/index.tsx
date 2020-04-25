@@ -9,8 +9,9 @@ interface IBriefProps {
 const BriefInfo: FC<IBriefProps> = props => {
   const { info } = props;
   return (
-    <div style={{
-      height: '100%',
+    <div
+      style={{
+        height: '100%',
       }}
     >
     {
