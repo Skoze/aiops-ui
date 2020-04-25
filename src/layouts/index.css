@@ -20,4 +20,5 @@
 .content {
   padding: 0.5em 2em 0;
   background-color: #f0f2f5;
+  position: relative;
 }
