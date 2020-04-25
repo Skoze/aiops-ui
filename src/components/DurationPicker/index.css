@@ -1,0 +1,20 @@
+.time,
+.container {
+  display: inline-block;
+}
+.container {
+  position: relative;
+  margin: 0 2em;
+}
+.time {
+  padding: 0.25em;
+  cursor: pointer;
+}
+.picker {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  max-width: 100%;
+  min-width: 100%;
+  visibility: hidden;
+}
