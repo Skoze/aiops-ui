@@ -1,12 +1,6 @@
 import { Select } from 'antd';
-import { useEffect } from 'react';
-export default function SelectorBase({
-  defaultOption = null,
-  options = [],
-  label = '',
-  value = '',
-  onChange = () => {},
-}) {
+import React, { useEffect } from 'react';
+export default function SelectorBase({ defaultOption = null, options = [], value = '', onChange }) {
   useEffect(() => {
     if (defaultOption) {
       onChange(defaultOption.id);
