@@ -8,7 +8,7 @@ export default class TopoGraph {
     this.graph = this.svg.append('g');
 
     this.svg.call(this.onZoom()).on('click', () => {
-      this.selected = null;
+      this.select(null);
       this.updateGraph();
     });
 
@@ -23,6 +23,15 @@ export default class TopoGraph {
     this.data = { nodes: [], links: [] };
 
     this.selected = null;
+    this.handleClick = [];
+
+    this.select(null);
+  }
+
+  addSelectListener(fn) {
+    if (typeof fn === 'function') {
+      this.handleClick.push(fn);
+    }
   }
 
   setOption({ nodes, links }) {
@@ -45,10 +54,15 @@ export default class TopoGraph {
       .tick(300);
     this.data.nodes = nodes;
     this.data.links = links;
-    this.selected = null;
+    this.select(null);
     this.updateNodes();
     this.updateLinks();
     this.updateGraph();
+  }
+
+  select(node) {
+    this.selected = node;
+    this.handleClick.forEach(fn => fn(node));
   }
 
   updateNodes() {
@@ -67,7 +81,7 @@ export default class TopoGraph {
       .on('mouseout', this.tip.hide)
       .on('click', node => {
         d3.event.stopPropagation();
-        this.selected = node;
+        this.select(node);
         this.updateGraph();
       })
       .call(
@@ -222,9 +236,9 @@ function diff(oldNodes, newNodes) {
 
 function getNodeImg(type) {
   try {
-    return require(`./assets/${type.toUpperCase()}.png`);
+    return require(`@/assets/${type.toUpperCase()}.png`);
   } catch {
-    return require('./assets/cube22.png');
+    return require('@/assets/cube22.png');
   }
 }
 
