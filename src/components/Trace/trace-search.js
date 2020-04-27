@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getServices, getServiceInstances, getEndpoints } from '@/api/metadata';
 import SelectorBase from '@/components/Base/selector-base';
 import FilterBase from '@/components/Base/filter-base';
@@ -67,7 +67,6 @@ export default function TraceSearch({ defaultQuery, defaultRange, onSearch }) {
     };
   }, [serviceId]);
 
-  console.log('rerender');
   return (
     <div className={styles['container']}>
       <div>
@@ -152,8 +151,8 @@ export default function TraceSearch({ defaultQuery, defaultRange, onSearch }) {
           onClick={() => {
             setServiceId('ALL');
             setTraceState('ALL');
-            setMaxTraceDuration();
-            setMinTraceDuration();
+            setMaxTraceDuration(undefined);
+            setMinTraceDuration(undefined);
             changeDuration([moment().subtract(15, 'm'), moment()]);
           }}
         >

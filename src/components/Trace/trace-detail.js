@@ -1,5 +1,5 @@
 import { Empty, Tag, Drawer } from 'antd';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getSpans } from '@/api/trace';
 import styles from './trace-detail.css';
 import TraceTree from './trace-tree';

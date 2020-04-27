@@ -1,0 +1,39 @@
+.icon,
+.label,
+.tag::after {
+  display: inline-block;
+  height: 2.5em;
+  line-height: 2.5em;
+  vertical-align: middle;
+}
+.label {
+  padding: 0 1em;
+}
+.icon {
+  width: 2.5em;
+  padding: 0.5em;
+  object-fit: contain;
+}
+
+.tag {
+  white-space: nowrap;
+  float: right;
+  border: 1px solid white;
+  border-left: none;
+  opacity: 0.7;
+}
+.tag:hover {
+  opacity: 1;
+}
+.wrapper {
+  max-width: fit-content;
+  width: calc(2.5em + 1px);
+  overflow: hidden;
+  color: #eee;
+  background-color: #4e5765aa;
+  transition: all 1s ease-in-out;
+}
+
+.wrapper:hover {
+  width: 100vw;
+}
