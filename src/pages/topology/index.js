@@ -5,7 +5,11 @@ import Graph from '@/components/Topology/graph';
 import ServiceSelector from '@/components/Topology/service-selector';
 import TagBase from '@/components/Base/tag-base';
 import styles from './index.css';
+import { Drawer } from 'antd';
 
+const types = ['alarm', 'trace', 'instance', 'api'];
+const typeNames = ['告警', '调用链', '实例', '端点'];
+const typeMap = new Map(types.map((type, index) => [type, typeNames[index]]));
 export default function() {
   const svgRef = useRef();
   const graph = useRef(null);
@@ -14,7 +18,8 @@ export default function() {
   const [data, setData] = useState({ nodes: [], links: [] });
   const [selectedServiceIds, setSelectedServiceIds] = useState([]);
   const [selectedNode, setSelectedNode] = useState(null);
-  const [type, setType] = useState('');
+  const [type, setType] = useState('none');
+  const [showDrawer, setShowDrawer] = useState(false);
   useEffect(() => {
     graph.current = new Graph(svgRef.current);
     graph.current.addSelectListener(setSelectedNode);
@@ -39,17 +44,36 @@ export default function() {
   return (
     <div className={styles['container']}>
       <svg ref={svgRef} className={styles['svg']} width="100%" height="100%"></svg>
-      {selectedNode && selectedNode.isReal && (
-        <div className={styles['tool-bar']}>
-          <TagBase label="告警" icon={tagIcon('alarm')} onClick={() => setType('alarm')} />
-          <TagBase label="调用链" icon={tagIcon('trace')} onClick={() => setType('trace')} />
-          <TagBase label="实例" icon={tagIcon('instance')} onClick={() => setType('instance')} />
-          <TagBase label="端点" icon={tagIcon('api')} onClick={() => setType('api')} />
-        </div>
-      )}
       <div className={styles['service-selector']}>
         <ServiceSelector services={services} onChange={setSelectedServiceIds}></ServiceSelector>
       </div>
+      {selectedNode && selectedNode.isReal && (
+        <div className={styles['tool-bar']}>
+          {types.map(type => (
+            <TagBase
+              key={type}
+              label={typeMap.get(type)}
+              icon={tagIcon(type)}
+              onClick={() => {
+                setType(type);
+                setShowDrawer(true);
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      <Drawer
+        title={`${typeMap.get(type)}信息`}
+        placement="left"
+        visible={showDrawer}
+        width="fit-content"
+        drawerStyle={{ minWidth: '75vw', maxWidth: '100vw' }}
+        destroyOnClose
+        onClose={() => setShowDrawer(false)}
+      >
+        {selectedNode && selectedNode.name}
+      </Drawer>
     </div>
   );
 }
