@@ -26,7 +26,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
         style: { height: '250px', width: '25%' },
         info: instance,
       });
-      Object.keys(res).forEach(key => {
+      Object.keys(res).forEach(key => { 
         switch (key){
           case 'instanceResponseTime':
             result.push({
@@ -38,7 +38,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
                 { name: 'instanceResponseTime', values: res.instanceResponseTime },
                 duration
               ),
-              avg: res.instanceResponseTime.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.instanceResponseTime.reduce((p: any, c: any) => p + c.value, 0) / 16,
               avgLabel: 'Instance Avg ResponseTime',
             });
             break;
@@ -52,7 +52,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
                 { name: 'instanceThroughput', values: res.instanceThroughput },
                 duration
               ),
-              avg: res.instanceThroughput.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.instanceThroughput.reduce((p: any, c: any) => p + c.value, 0)/ 16,
               avgLabel: 'Instance Arg Throughput',
             });
             break;
@@ -66,7 +66,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
                 { name: 'instanceSLA', values: res.instanceSLA },
                 duration
               ),
-              avg: res.instanceSLA.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.instanceSLA.reduce((p: any, c: any) => p + c.value, 0)/ 1600,
               avgLabel: 'Instance Arg SLA',
             });
             break;

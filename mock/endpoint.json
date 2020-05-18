@@ -1,0 +1,348 @@
+{
+    "globalBrief":{
+        "numOfService":0,
+        "numOfEndpoint":0,
+        "numOfDatabase":0
+    },
+    "endpointResponseTime":[
+        {"value":1932, "predict": 0},
+        {"value":1956, "predict": 0},
+        {"value":1977, "predict": 0},
+        {"value":2043, "predict": 0},
+        {"value":1857, "predict": 0},
+        {"value":1901, "predict": 0},
+        {"value":1891, "predict": 0},
+        {"value":2029, "predict": 0},
+        {"value":1898, "predict": 0},
+        {"value":2078, "predict": 0},
+        {"value":1805, "predict": 0},
+        {"value":2123, "predict": 0},
+        {"value":1736, "predict": 0},
+        {"value":2126, "predict": 0},
+        {"value":1781, "predict": 0},
+        {"value":2000, "predict": 0}
+    ],
+    "endpointThroughput":[
+        {"value":202, "predict": 0},
+        {"value":204, "predict": 0},
+        {"value":201, "predict": 0},
+        {"value":200, "predict": 0},
+        {"value":205, "predict": 0},
+        {"value":214, "predict": 0},
+        {"value":203, "predict": 0},
+        {"value":202, "predict": 0},
+        {"value":200, "predict": 0},
+        {"value":200, "predict": 0},
+        {"value":210, "predict": 0},
+        {"value":194, "predict": 0},
+        {"value":214, "predict": 0},
+        {"value":194, "predict": 0},
+        {"value":215, "predict": 0},
+        {"value":86, "predict": 0}
+    ],
+    "endpointSLA":[
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0},
+        {"value":10000, "predict": 0}
+    ],
+    "globalPercentile":{
+        "p50":[
+            {"value":1020, "predict": 0},
+            {"value":1040, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0},
+            {"value":1020, "predict": 0}],
+        "p75":[
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0},
+            {"value":2040, "predict": 0}],
+        "p90":[
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":2060, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3040, "predict": 0}],
+        "p95":[
+            {"value":3050, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":3070, "predict": 0},
+            {"value":3080, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":5050, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":5040, "predict": 0},
+            {"value":3040, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":3060, "predict": 0},
+            {"value":3060, "predict": 0}],
+        "p99":[
+            {"value":60020, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":8060, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":8050, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":8060, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":8050, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":60020, "predict": 0},
+            {"value":60020, "predict": 0}
+        ]
+    },
+    "endpointPercentile":{
+        "p50":[
+            {"value":2050, "predict": 0},
+            {"value":2050, "predict": 0},
+            {"value":2050, "predict": 0},
+            {"value":2050, "predict": 0},
+            {"value":2050, "predict": 0},
+            {"value":1100, "predict": 0},
+            {"value":2090, "predict": 0},
+            {"value":2090, "predict": 0},
+            {"value":2090, "predict": 0},
+            {"value":2060, "predict": 0},
+            {"value":2050, "predict": 0},
+            {"value":2050, "predict": 0},
+            {"value":2050, "predict": 0},
+            {"value":2060, "predict": 0},
+            {"value":2050, "predict": 0},
+            {"value":2050, "predict": 0}
+        ],
+        "p75":[
+            {"value":2280, "predict": 0},
+            {"value":2070, "predict": 0},
+            {"value":2070, "predict": 0},
+            {"value":2090, "predict": 0},
+            {"value":2070, "predict": 0},
+            {"value":2080, "predict": 0},
+            {"value":2120, "predict": 0},
+            {"value":3090, "predict": 0},
+            {"value":2110, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":2070, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":2070, "predict": 0},
+            {"value":3050, "predict": 0},
+            {"value":2070, "predict": 0},
+            {"value":2100, "predict": 0}
+        ],
+        "p90":[
+            {"value":3070, "predict": 0},
+            {"value":3060, "predict": 0},
+            {"value":3070, "predict": 0},
+            {"value":3070, "predict": 0},
+            {"value":3070, "predict": 0},
+            {"value":3070, "predict": 0},
+            {"value":3100, "predict": 0},
+            {"value":3110, "predict": 0},
+            {"value":3100, "predict": 0},
+            {"value":3130, "predict": 0},
+            {"value":3060, "predict": 0},
+            {"value":3080, "predict": 0},
+            {"value":3060, "predict": 0},
+            {"value":3270, "predict": 0},
+            {"value":3070, "predict": 0},
+            {"value":3230, "predict": 0}
+        ],
+        "p95":[
+            {"value":5080, "predict": 0},
+            {"value":6060, "predict": 0},
+            {"value":7060, "predict": 0},
+            {"value":6060, "predict": 0},
+            {"value":5060, "predict": 0},
+            {"value":6060, "predict": 0},
+            {"value":5100, "predict": 0},
+            {"value":6100, "predict": 0},
+            {"value":3120, "predict": 0},
+            {"value":6060, "predict": 0},
+            {"value":3150, "predict": 0},
+            {"value":7060, "predict": 0},
+            {"value":3070, "predict": 0},
+            {"value":6070, "predict": 0},
+            {"value":3100, "predict": 0},
+            {"value":6100, "predict": 0}
+        ],
+        "p99":[
+            {"value":7080, "predict": 0},
+            {"value":7070, "predict": 0},
+            {"value":8060, "predict": 0},
+            {"value":8060, "predict": 0},
+            {"value":7060, "predict": 0},
+            {"value":8060, "predict": 0},
+            {"value":8090, "predict": 0},
+            {"value":7110, "predict": 0},
+            {"value":8060, "predict": 0},
+            {"value":7070, "predict": 0},
+            {"value":8060, "predict": 0},
+            {"value":7070, "predict": 0},
+            {"value":7070, "predict": 0},
+            {"value":7080, "predict": 0},
+            {"value":7080, "predict": 0}
+        ]
+    },
+    "endpointTopology":{
+        "nodes":[
+            {"id":"bG9hZCBiYWxhbmNlcjIuc3lzdGVt.1_L3Byb2plY3RBL3Rlc3Q=","value":"/projectA/test"},
+            {"id":"cHJvamVjdEEuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RBL3tuYW1lfQ==","value":"/projectA/{name}"},
+            {"id":"cHJvamVjdEIuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RCL3t2YWx1ZX0=","value":"/projectB/{value}"},
+            {"id":"cHJvamVjdEMuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RDL3t2YWx1ZX0=","value":"/projectC/{value}"}
+        ],
+        "calls":[
+            {   "id":"bG9hZCBiYWxhbmNlcjIuc3lzdGVt.1-L3Byb2plY3RBL3Rlc3Q=-cHJvamVjdEEuYnVzaW5lc3Mtem9uZQ==.1-L3Byb2plY3RBL3tuYW1lfQ==",
+                "source":"bG9hZCBiYWxhbmNlcjIuc3lzdGVt.1_L3Byb2plY3RBL3Rlc3Q=",
+                "target":"cHJvamVjdEEuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RBL3tuYW1lfQ=="
+            },{
+                "id":"cHJvamVjdEEuYnVzaW5lc3Mtem9uZQ==.1-L3Byb2plY3RBL3tuYW1lfQ==-cHJvamVjdEIuYnVzaW5lc3Mtem9uZQ==.1-L3Byb2plY3RCL3t2YWx1ZX0=",
+                "source":"cHJvamVjdEEuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RBL3tuYW1lfQ==",
+                "target":"cHJvamVjdEIuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RCL3t2YWx1ZX0="
+            },{
+                "id":"cHJvamVjdEEuYnVzaW5lc3Mtem9uZQ==.1-L3Byb2plY3RBL3tuYW1lfQ==-cHJvamVjdEMuYnVzaW5lc3Mtem9uZQ==.1-L3Byb2plY3RDL3t2YWx1ZX0=",
+                "source":"cHJvamVjdEEuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RBL3tuYW1lfQ==",
+                "target":"cHJvamVjdEMuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RDL3t2YWx1ZX0="}
+        ]
+    },
+    "globalSlow":[
+        {   "id":"cHJvamVjdEMuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RDL3t2YWx1ZX0=",
+            "name":"projectC.business-zone - /projectC/{value}",
+            "value":4452
+        },{
+            "id":"bG9hZCBiYWxhbmNlcjIuc3lzdGVt.1_L3Byb2plY3RBL3Rlc3Q=",
+            "name":"load balancer2.system - /projectA/test",
+            "value":1949
+        },{
+            "id":"bG9hZCBiYWxhbmNlcjEuc3lzdGVt.1_L3Byb2plY3RBL3Rlc3Q=",
+            "name":"load balancer1.system - /projectA/test",
+            "value":1948
+        },{
+            "id":"cHJvamVjdEEuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RBL3tuYW1lfQ==",
+            "name":"projectA.business-zone - /projectA/{name}",
+            "value":1945
+        },{
+            "id":"cHJvamVjdEIuYnVzaW5lc3Mtem9uZQ==.1_L3Byb2plY3RCL3t2YWx1ZX0=",
+            "name":"projectB.business-zone - /projectB/{value}",
+            "value":554
+        },{
+            "id":"cHJvamVjdEQuYnVzaW5lc3Mtem9uZQ==.1_S2Fma2EvdGVzdC10cmFjZS10b3BpYy9Db25zdW1lci90ZXN0",
+            "name":"projectD.business-zone - Kafka/test-trace-topic/Consumer/test",
+            "value":0
+        }
+    ],
+    "endpointTraces":{
+        "traces":[
+            {
+                "id":"6c4504dacd134e76975000d27c8a00c4.44.15897856814479642",
+                "endpointNames":["/projectA/{name}"],
+                "duration":8133,
+                "start":"1589785681447",
+                "isError":true,
+                "traceIds":["52694787-811e-4bbf-815d-0c6e683c9296"]
+            },{
+                "id":"6feee65da86e4f2d9aaebc814ce4aa92.50.15897857845389644",
+                "endpointNames":["/projectA/{name}"],
+                "duration":8120,
+                "start":"1589785784538",
+                "isError":true,
+                "traceIds":["b3a93d2d-0526-447d-af85-4c019d06b8eb"]
+            },{
+                "id":"6feee65da86e4f2d9aaebc814ce4aa92.47.15897858236499524",
+                "endpointNames":["/projectA/{name}"],
+                "duration":8105,
+                "start":"1589785823649",
+                "isError":true,
+                "traceIds":["496c18ef-d4c0-49ac-81a8-88e62a8583a9"]
+            },{
+                "id":"6c4504dacd134e76975000d27c8a00c4.50.15897858386659436",
+                "endpointNames":["/projectA/{name}"],
+                "duration":8103,
+                "start":"1589785838665",
+                "isError":true,
+                "traceIds":["0fced583-1ae9-49d3-a813-58689a67adf1"]
+            },{
+                "id":"6c4504dacd134e76975000d27c8a00c4.43.15897858359359728",
+                "endpointNames":["/projectA/{name}"],
+                "duration":8103,
+                "start":"1589785835935",
+                "isError":true,
+                "traceIds":["5f51ad6a-c35c-4f2b-b242-21e6d5a23f48"]
+            },{
+                "id":"6c4504dacd134e76975000d27c8a00c4.42.15897858363829608",
+                "endpointNames":["/projectA/{name}"],
+                "duration":8103,
+                "start":"1589785836382",
+                "isError":true,
+                "traceIds":["ba6778ba-c3e2-40ba-be30-fe94a1081f5c"]
+            },{
+                "id":"6feee65da86e4f2d9aaebc814ce4aa92.42.15897857072809450",
+                "endpointNames":["/projectA/{name}"],
+                "duration":8102,
+                "start":"1589785707280",
+                "isError":true,
+                "traceIds":["253f9e70-96ed-4638-b065-1701b93bf85a"]
+            },{
+                "id":"6feee65da86e4f2d9aaebc814ce4aa92.44.15897858244959588",
+                "endpointNames":["/projectA/{name}"],
+                "duration":8100,
+                "start":"1589785824495",
+                "isError":true,
+                "traceIds":["2bc38c16-f185-4079-92f2-f67f904fb8fc"]
+            }],
+        "total":8
+    }
+}

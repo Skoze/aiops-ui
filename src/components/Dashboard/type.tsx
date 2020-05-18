@@ -111,7 +111,7 @@ export const DashBoardFilterMap: {
 export const Yseries = (num: number) => {
     const result = [];
     for (let i = 0; i < 21 ; i++) {
-        result.push(`${ i * num } ms`);
+        result.push(`${ i * num }ms`);
     }
     return result;
 }
@@ -174,6 +174,7 @@ const basicConfig = (duration: Duration) => {
             axisTick: {
                 show: false,
             },
+            nameGap: 50,
             splitLine: {
                 lineStyle: {
                     type: 'dashed',
@@ -185,7 +186,7 @@ const basicConfig = (duration: Duration) => {
             },
         },
         grid:{
-            x: 30,
+            x: 50,
             y: 10,
             x2: 10,
             y2: 40,
@@ -258,7 +259,7 @@ export const translateToStackLineChart = (globalPercentile: Array<dateSery>, dur
     return {
         ...defaultLineChart,
         grid:{
-            x: 30,
+            x: 40,
             y: 30,
             x2: 10,
             y2: 40,
@@ -365,28 +366,32 @@ export const translateToHeatMapChart = (heapMapdata: HeapMapData, duration: Dura
     const defaultLineChart= basicConfig(duration);
     return {
         ...defaultLineChart,
+        tooltip: {
+            trigger: 'item'
+        },
         yAxis: {
             ...defaultLineChart.yAxis,
             axisLabel: {
                 interval: 4,
                 fontSize: 10,
+                margin: 20,
             },
             data: Yseries(heapMapdata.responseTimeStep || 100),
         },
         visualMap: {
             min: 0,
-            max: heapMapdata.responseTimeStep * 100,
+            max: maxValue,
             show: false,
             inRange: {
                 color: ['white', 'red', 'darkRed'],
             }
         },
         grid:{
-            x: 60,
+            x: 58,
             y: 10,
             x2: 10,
             y2: 40,
-            borderWidth: 10,
+            borderWidth: 40,
         },
         series: [{
             name: heapMapdata.name,

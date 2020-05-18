@@ -8,16 +8,43 @@ export default {
     let response;
     switch (String(req.query.service_id)) {
       case '2':
-        response = [{ serviceInstanceId: '2', name: 'load balancer2.system' }];
+        response = [{ 
+          serviceInstanceId: '2', 
+          name: 'load balancer2.system', 
+          language: "JAVA",
+          attributes:[
+            {"name":"OS Name","value":"Linux"},
+            {"name":"hostname","value":"skywalking-server-0002"},
+            {"name":"Process No.","value":"2481"},
+            {"name":"ipv4s","value":"192.168.252.13"}
+          ]
+        }];
         break;
       case '3':
-        response = [{ serviceInstanceId: '3', name: 'load balancer1.system' }];
+        response = [{
+          serviceInstanceId: '3',
+          name: 'load balancer1.system',
+          language: "JAVA",
+          attributes:[
+            {"name":"OS Name","value":"Linux"},
+            {"name":"hostname","value":"skywalking-server-0002"},
+            {"name":"Process No.","value":"2481"},
+            {"name":"ipv4s","value":"192.168.252.13"}
+          ]
+        }];
         break;
       case '4':
         response = [
           {
             serviceInstanceId: '17',
             name: 'projectB.business-zone-pid:20233@skywalking-server-0002',
+            language: "JAVA",
+            attributes:[
+              {"name":"OS Name","value":"Linux"},
+              {"name":"hostname","value":"skywalking-server-0002"},
+              {"name":"Process No.","value":"2481"},
+              {"name":"ipv4s","value":"192.168.252.13"}
+            ]
           },
         ];
         break;

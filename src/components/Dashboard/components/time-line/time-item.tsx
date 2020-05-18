@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { instanceDate } from '../../type';
-import './time-item.less';
 interface ITimeItemProps extends instanceDate {
  max: number;
  color: string;
