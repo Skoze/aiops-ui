@@ -13,9 +13,9 @@ const typeMap = new Map(types.map((type, index) => [type, typeNames[index]]));
 export default function() {
   const svgRef = useRef();
   const graph = useRef(null);
+  const data = useRef({ nodes: [], links: [] });
   const { duration } = useContext(DurationContext);
   const [services, setServices] = useState([]);
-  const [data, setData] = useState({ nodes: [], links: [] });
   const [selectedServiceIds, setSelectedServiceIds] = useState([]);
   const [selectedNode, setSelectedNode] = useState(null);
   const [type, setType] = useState('none');
@@ -28,7 +28,7 @@ export default function() {
     let isFetching = true;
     getTopology(duration).then(res => {
       if (isFetching) {
-        setData({ nodes: res.nodes, links: res.calls });
+        data.current = { nodes: res.nodes, links: res.calls };
         setServices(res.nodes.filter(node => node.isReal));
       }
     });
@@ -37,9 +37,9 @@ export default function() {
 
   useEffect(() => {
     if (graph.current instanceof Graph) {
-      graph.current.setOption(subData(data, selectedServiceIds));
+      graph.current.setOption(subData(data.current, selectedServiceIds));
     }
-  }, [data, selectedServiceIds]);
+  }, [selectedServiceIds]);
 
   return (
     <div className={styles['container']}>

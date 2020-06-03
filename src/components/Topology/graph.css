@@ -17,14 +17,14 @@
   fill: #ddd;
 }
 .node .circle {
-  fill: #4e5765aa;
+  fill: rgba(78, 87, 101, 0.7);
   stroke-width: 6px;
   transition: all 0.5s;
 }
 
 .link {
   fill: none;
-  stroke: rgb(33, 126, 242, 0.5);
+  stroke: rgba(33, 126, 242, 0.5);
   stroke-dasharray: 9 11;
   stroke-linecap: round;
   stroke-width: 2px;
@@ -33,6 +33,20 @@
 
 .unselected {
   opacity: 0.1 !important;
+  transition: all 0.3s;
+}
+
+.node.selected {
+  animation: blink 0.5s ease-in infinite alternate;
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.2;
+  }
 }
 
 @keyframes topo-dash {
