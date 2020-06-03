@@ -38,7 +38,7 @@ const EndpointPanel: FC<IEndpointPanelProps> = props => {
                 { name: 'endpointResponseTime', values: res.endpointResponseTime},
                 duration
               ),
-              avg: res.endpointResponseTime.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.endpointResponseTime.reduce((p: any, c: any) => p + c.value, 0)/ 16,
               avgLabel: 'Endpoint Arg ResponseTime',
             });
             break;
@@ -52,7 +52,7 @@ const EndpointPanel: FC<IEndpointPanelProps> = props => {
                 { name: 'endpointThroughput', values: res.endpointThroughput }, 
                 duration
               ),
-              avg: res.endpointThroughput.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.endpointThroughput.reduce((p: any, c: any) => p + c.value, 0)/ 16,
               avgLabel: 'Endpoint Arg Throughput',
             });
             break;
@@ -66,7 +66,7 @@ const EndpointPanel: FC<IEndpointPanelProps> = props => {
                 { name: 'endpointSLA', values: res.endpointSLA },
                 duration
               ),
-              avg: res.endpointSLA.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.endpointSLA.reduce((p: any, c: any) => p + c.value, 0) / 1600,
               avgLabel: 'Endpoint Arg SLA',
             });
             break;

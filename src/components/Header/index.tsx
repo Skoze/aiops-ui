@@ -7,7 +7,7 @@ interface IProps {
 }
 
 const { Header } = Layout;
-
+let interval: any;
 const OPSHeader: FC<IProps> = (props) => {
   const { refresh } = props;
   const [refreshNum, setRefreshNum] = useState(6);
@@ -35,11 +35,22 @@ const OPSHeader: FC<IProps> = (props) => {
     },
   ];
   useEffect(() => {
-    let interval:number|undefined;
+    const intervalTime: number = refreshNum * 1000;
     if (auto) {
-      interval = setInterval(refresh, refreshNum * 1000);
+      refresh();
+      interval = setInterval(refresh, intervalTime);
     } else {
       clearInterval(interval);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [auto, refresh, refreshNum]);
+  useEffect(() => {
+    const intervalTime: number = refreshNum * 1000;
+    if (auto) {
+      clearInterval(interval);
+      interval = setInterval(refresh, intervalTime);
     }
     return () => {
       clearInterval(interval);
@@ -52,6 +63,7 @@ const OPSHeader: FC<IProps> = (props) => {
         <Button
           type="primary"
           size="small"
+          style={{ backgroundColor: auto ? '#448dfe' : 'inherit'}}
           onClick={() => setAuto(!auto)}
         >
           自动
