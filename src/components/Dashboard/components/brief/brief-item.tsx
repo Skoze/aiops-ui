@@ -1,6 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { Icon } from 'antd';
 import { BriefInf } from '../../type';
+import './brief-item.less';
 interface IBriefItemProps {
     name: BriefInf;
     value: number;

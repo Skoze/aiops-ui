@@ -111,14 +111,14 @@ export const DashBoardFilterMap: {
 export const Yseries = (num: number) => {
     const result = [];
     for (let i = 0; i < 21 ; i++) {
-        result.push(`${ i * num }ms`);
+        result.push(`${ i * num } ms`);
     }
     return result;
 }
 export const formatObject: {[key: string]: string} = {
-    [Step.MINUTE]: 'YYYY-MM-DD HH:mm',
-    [Step.HOUR]: 'YYYY-MM-DD HH',
-    [Step.DAY]: 'YYYY-MM-DD',
+    [Step.MINUTE]: 'MM-DD HH:mm',
+    [Step.HOUR]: 'MM-DD HH',
+    [Step.DAY]: 'MM-DD',
     [Step.MONTH]: 'YYYY-MM',
 };
 export const momentObject: {[key: string]: 'm' | 'h' | 'd' | 'M'} = {
@@ -129,11 +129,11 @@ export const momentObject: {[key: string]: 'm' | 'h' | 'd' | 'M'} = {
 }
 const basicConfig = (duration: Duration) => {
     const timeSeies: Array<string> = [];
-    let startDate = moment(duration.start);
-    let endDate = moment(duration.end);
+    let startDate = moment(duration.start, 'YYYY-MM-DD HHmm');
+    let endDate = moment(duration.end, 'YYYY-MM-DD HHmm');
     let count = 0;
     let interval = 1;
-    if (startDate < endDate) {
+    while (startDate.isBefore(endDate)) {
         timeSeies.push(startDate.add(1, momentObject[`${duration.step}`]).format(formatObject[`${duration.step}`]));
         count++;
     }
@@ -151,6 +151,11 @@ const basicConfig = (duration: Duration) => {
             boundaryGap: false,
             axisLabel: {
                 interval,
+                fontSize: 10,
+                width: '50%',
+                formatter: val => {
+                    return val.split(" ").join("\n");
+                }
             },
             axisLine: {
                 lineStyle: {
@@ -162,7 +167,7 @@ const basicConfig = (duration: Duration) => {
             data: timeSeies,
         },
         yAxis: {
-            type: 'value',
+            //type: 'value',
             axisLine: {
                 show: false,
             },
@@ -174,8 +179,18 @@ const basicConfig = (duration: Duration) => {
                     type: 'dashed',
                     opacity: 0.5,
                 }
-            }
+            },
+            axisLabel: {
+                fontSize: 10,
+            },
         },
+        grid:{
+            x: 30,
+            y: 10,
+            x2: 10,
+            y2: 40,
+            borderWidth: 10,
+        }
     }
 };
 export const translateToLineChart = (data: dateSery, duration: Duration) => {
@@ -242,8 +257,21 @@ export const translateToStackLineChart = (globalPercentile: Array<dateSery>, dur
     const defaultLineChart= basicConfig(duration);
     return {
         ...defaultLineChart,
+        grid:{
+            x: 30,
+            y: 30,
+            x2: 10,
+            y2: 40,
+            borderWidth: 10,
+        },
         legend: {
+            icon:'circle',
             data: nameList,
+            itemWidth:10,
+            itemHeight:10,
+            textStyle: {
+                fontSize: 10,
+            }
         },
         series,
     };
@@ -306,6 +334,22 @@ export const translateToLineAreaChart = (data: Array<dateSery>, duration: Durati
     return {
         ...defaultLineChart,
         series,
+        legend: {
+            icon:'circle',
+            data: nameList,
+            itemWidth:10,
+            itemHeight:10,
+            textStyle: {
+                fontSize: 10,
+            }
+        },
+        grid:{
+            x: 30,
+            y: 30,
+            x2: 10,
+            y2: 40,
+            borderWidth: 10,
+        },
     };
 };
 export const translateToHeatMapChart = (heapMapdata: HeapMapData, duration: Duration) => {
@@ -324,17 +368,25 @@ export const translateToHeatMapChart = (heapMapdata: HeapMapData, duration: Dura
         yAxis: {
             ...defaultLineChart.yAxis,
             axisLabel: {
-                interval: 4
+                interval: 4,
+                fontSize: 10,
             },
-            data: Yseries(heapMapdata.responseTimeStep),
+            data: Yseries(heapMapdata.responseTimeStep || 100),
         },
         visualMap: {
             min: 0,
-            max: maxValue,
+            max: heapMapdata.responseTimeStep * 100,
             show: false,
             inRange: {
                 color: ['white', 'red', 'darkRed'],
             }
+        },
+        grid:{
+            x: 60,
+            y: 10,
+            x2: 10,
+            y2: 40,
+            borderWidth: 10,
         },
         series: [{
             name: heapMapdata.name,

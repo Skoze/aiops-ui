@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './span-detail.css';
 import moment from 'moment';
 import { Collapse } from 'antd';

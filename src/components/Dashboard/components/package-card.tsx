@@ -3,7 +3,7 @@ import { Statistic } from 'antd';
 import CardBase from '@/components/Base/card-base';
 import TimeLine from './time-line/time-line';
 import Chart from './chart';
-import Info from './Information';
+import Info from './information';
 import BriefInfo from './brief';
 import { DataPackage } from '../type';
 
@@ -21,13 +21,18 @@ const PackageCard: FC<IPackageCardProps> = props => {
     >
       {
         data.type === 'avgChart'
-        && <CardBase label={data.avgLabel}>
+        && (<div style={{ height: '100%' }}>
+          <CardBase label={data.avgLabel} style={{ height: '30%' }}>
            <Statistic
             value={data.avg}
             precision={2}
             suffix={data.unit}
           />
         </CardBase>
+        <CardBase label={data.label} style={{ height: '70%' }}>
+        <Chart series={data.value}/>
+      </CardBase>
+      </div>)
       }
       {
         data.type === 'line'
@@ -40,7 +45,7 @@ const PackageCard: FC<IPackageCardProps> = props => {
         </CardBase>
       }
       {
-        (data.type === 'chart' || data.type === 'avgChart')
+        data.type === 'chart'
         && <CardBase label={data.label}>
           <Chart series={data.value}/>
         </CardBase>

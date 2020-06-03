@@ -16,6 +16,7 @@ const DatabasePanel: FC<IDatabasePanelProps> = props => {
     request.post('/database/', {
       duration,
       id,
+      business: '',
     }).then(res => {
       const result: Array<DataPackage> = [];
       Object.keys(res).forEach(key => {
@@ -39,7 +40,7 @@ const DatabasePanel: FC<IDatabasePanelProps> = props => {
                 { name: 'databaseResponseTime', values: res.databaseResponseTime },
                 duration
               ),
-              avg: res.databaseResponseTime.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.databaseResponseTime.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Database Arg ResponseTime',
             })
             break;
@@ -53,7 +54,7 @@ const DatabasePanel: FC<IDatabasePanelProps> = props => {
                 { name: 'databaseThroughput', values: res.databaseThroughput },
                 duration
               ),
-              avg: res.databaseThroughput.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.databaseThroughput.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Database Arg Throughput',
             });
             break;
@@ -67,7 +68,7 @@ const DatabasePanel: FC<IDatabasePanelProps> = props => {
                 { name: 'databaseSLA', values: res.databaseSLA },
                 duration
               ),
-              avg: res.databaseSLA.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.databaseSLA.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Database Avg SLA',
             });
             break;
@@ -130,6 +131,10 @@ const DatabasePanel: FC<IDatabasePanelProps> = props => {
     <div
       style={{
         padding: '20px 15px',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
       }}
     >
       {

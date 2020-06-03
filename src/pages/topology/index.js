@@ -23,8 +23,10 @@ export default function() {
     let isFetching = true;
     getTopology(duration).then(res => {
       if (isFetching) {
-        setData({ nodes: res.nodes, links: res.calls });
-        setServices(res.nodes.filter(node => node.isReal));
+        if (res.nodes && res.calls) {
+          setData({ nodes: res.nodes, links: res.calls });
+          setServices(res.nodes.filter(node => node.isReal));
+        }
       }
     });
     return () => (isFetching = false);

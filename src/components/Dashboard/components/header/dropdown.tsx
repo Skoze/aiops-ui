@@ -3,6 +3,7 @@ import { Menu, Dropdown } from 'antd';
 import _ from 'lodash';
 import { DashBoardFilterMap } from '../../type';
 import FilterBase from '../../../Base/filter-base';
+import { elipsis } from '@/utils/common';
 interface IDropDownSelectProps {
   choises: Array<any>;
   onChange: (type: string, key: string) => void;
@@ -22,7 +23,7 @@ const DropDownSelect: FC<IDropDownSelectProps> = props => {
     </Menu>
   );
   return (
-    <div>
+    <div style={{ display: 'inline-flex', margin: '15px 10px', width: '180px'}}>
       <FilterBase label={`当前${DashBoardFilterMap[`${type}`]}`}>
         <Dropdown overlay={menu}>
           <a
@@ -30,14 +31,12 @@ const DropDownSelect: FC<IDropDownSelectProps> = props => {
             onClick={e => e.preventDefault()}
           >
             <span>
-              { _.find(choises, choise => String(choise[`${idName}`]) === target)?.name}
+              {elipsis(_.find(choises, choise => String(choise[`${idName}`]) === String(target))?.name, 12)}
             </span>
           </a>
-      </Dropdown>
+        </Dropdown>
       </FilterBase>
-      
     </div>
-    
-  )
+  );
 }
 export default DropDownSelect;

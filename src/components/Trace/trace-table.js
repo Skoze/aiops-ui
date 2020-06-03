@@ -1,3 +1,4 @@
+import React from 'react';
 import { List, Tag } from 'antd';
 import moment from 'moment';
 import styles from './trace-table.css';

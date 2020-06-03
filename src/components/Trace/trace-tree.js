@@ -1,9 +1,9 @@
 import Trace from './d3-trace';
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Spin } from 'antd';
 export default function TraceTree({ spans, onSelect }) {
   const tree = useRef();
-  const trace = useRef();
+  const trace = useRef(null);
   useEffect(() => {
     trace.current = new Trace(tree.current);
   }, []);

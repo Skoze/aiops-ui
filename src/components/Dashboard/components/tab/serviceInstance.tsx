@@ -16,6 +16,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
     request.post('/instance/', {
       duration,
       id: instance?.serviceInstanceId,
+      business: '',
     }).then(res => {
       const result: Array<DataPackage> = []; 
       result.push({
@@ -24,7 +25,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
         unit: '',
         style: { height: '250px', width: '25%' },
         info: instance,
-      })
+      });
       Object.keys(res).forEach(key => {
         switch (key){
           case 'instanceResponseTime':
@@ -37,7 +38,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
                 { name: 'instanceResponseTime', values: res.instanceResponseTime },
                 duration
               ),
-              avg: res.instanceResponseTime.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.instanceResponseTime.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Instance Avg ResponseTime',
             });
             break;
@@ -51,7 +52,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
                 { name: 'instanceThroughput', values: res.instanceThroughput },
                 duration
               ),
-              avg: res.instanceThroughput.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.instanceThroughput.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Instance Arg Throughput',
             });
             break;
@@ -65,68 +66,86 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
                 { name: 'instanceSLA', values: res.instanceSLA },
                 duration
               ),
-              avg: res.instanceSLA.values.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.instanceSLA.reduce((p: any, c: any) => p + c.value, 0),
               avgLabel: 'Instance Arg SLA',
             });
             break;
           case 'heap':
+            let heap = [];
+            heap.push({
+              name: 'Value',
+              values: res.heap.map(item => {
+                return { value: item.value, predict: item.predict };
+              }),
+            });
+            heap.push({
+              name: 'Free',
+              values: res.heap.map(item => {
+                return { value: item.free, predict: item.predict };
+              }),
+            });
             result.push({
               label: 'JVM Heap (MB)',
               type: 'chart',
               unit: '',
               style: {height: '250px', width: '25%'},
               value: translateToLineAreaChart(
-                Object.keys(res.heap).map(key => {
-                  return {
-                    name: key,
-                    values: res.heap[`${key}`],
-                  }
-                }),
+                heap,
                 duration
               ),
             });
             break;
           case 'nonHeap':
+            let values = [];
+            values.push({
+              name: 'Value',
+              values: res.nonHeap.map(item => {
+                return { value: item.value, predict: item.predict };
+              }),
+            });
+            values.push({
+              name: 'Free',
+              values: res.nonHeap.map(item => {
+                return { value: item.free, predict: item.predict };
+              }),
+            });
             result.push({
               label: 'JVM Non-Heap (MB)',
               type: 'chart',
               unit: '',
               style: {height: '250px', width: '25%'},
               value: translateToLineAreaChart(
-                Object.keys(res.noHeap).map(key => {
-                  return {
-                    name: key,
-                    values: res.noHeap[`${key}`],
-                  };
-                }),
+                values,
                 duration
               ),
             });
             break;
-          case 'GCTime':
+          case 'gcTime':
             result.push({
               label: 'JVM GC (ms)',
               type: 'chart',
               unit: '',
               style: {height: '250px', width: '25%'},
               value: translateToLineAreaChart(
-                Object.keys(res.GCTime).map(key => {
+                Object.keys(res.gcTime).map(key => {
                   return {
                     name: key,
-                    values: res.GCTime[`${key}`],
+                    values: res.gcTime[`${key}`],
                   }
                 }),
                 duration
               ),
             });
+            break;
+          case 'gcCount':
             result.push({
               label: 'JVM GC Count',
               type: 'brief',
               unit: '',
               style: {height: '250px', width: '25%'},
-              value: {
-                youngGCTime: res.GCTime.youngGCTime.length,
-                oldGCTime: res.GCTime.oldGCTime.length,
+              info: {
+                youngGCTime: res.gcCount.oldGCCount.reduce((p: any, c: any) => p + c.value, 0),
+                oldGCTime: res.gcCount.youngGCCount.reduce((p: any, c: any) => p + c.value, 0),
               }
             });
             break;
@@ -164,7 +183,7 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
                   Object.keys(res.clrGC).map(key => {
                     return {
                       name: key,
-                      values: res.CLRGC[`${key}`],
+                      values: res.clrGC[`${key}`],
                     }
                   }), duration),
                 });
@@ -193,6 +212,10 @@ const InstancePanel: FC<IInstancePanelProps> = props => {
     <div
       style={{
         padding: '20px 15px',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
       }}
     >
       {
