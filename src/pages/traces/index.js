@@ -1,7 +1,7 @@
 import TraceSearch from '@/components/Trace/trace-search';
 import TraceTable from '@/components/Trace/trace-table';
 import TraceDetail from '@/components/Trace/trace-detail';
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { getTraces } from '@/api/trace';
 import { Pagination, Dropdown, Menu, Icon, Layout } from 'antd';
 import { DurationContext } from '@/layouts';
@@ -23,7 +23,7 @@ export default function Trace() {
   const [queryOrder, setQueryOrder] = useState('BY_START_TIME');
 
   const [traces, setTraces] = useState({ traces: [], total: 0 });
-  const [loading, setLoading] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const [selectedTrace, setSelectedTrace] = useState();
 
