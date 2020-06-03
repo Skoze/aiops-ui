@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
-import { Tabs, message } from 'antd';
+import { Tabs, message, Card } from 'antd';
 import _ from 'lodash';
 import DashBoardHeader from '@/components/Dashboard/components/header';
 import { DashBoardFilter, ServiceInstancesType } from '@/components/Dashboard/type';
@@ -10,6 +10,7 @@ import DatabasePanel from '@/components/Dashboard/components/tab/database';
 import InstancePanel from '@/components/Dashboard/components/tab/serviceInstance';
 import EndpointPanel from '@/components/Dashboard/components/tab/endpoint';
 import { DurationContext } from '@/layouts';
+import './index.less';
 interface IDashboardProps {
 
 }
@@ -20,7 +21,7 @@ const Dashboard: FC<IDashboardProps> = props => {
   const [services, setServices] = useState();
   const [databases, setDatabases] = useState();
   const [endpoints, setEndpoints] = useState();
-  const [serviceInstances, setServiceInstances] = useState();
+  const [serviceInstances, setServiceInstances] = useState([]);
   const onFilterChange = (type: string, value: string) => {
     let tempFilter: DashBoardFilter = { type: filter.type };
     switch (type) {
@@ -54,7 +55,6 @@ const Dashboard: FC<IDashboardProps> = props => {
     .then(res => {
       setDatabases(res[0]);
       setServices(res[1]);
-      setSelectedIds({ service: res[0][0].databaseId, database: res[1][0].serviceId })
       Promise.all([
         request.get('/metadata/getEndpoints', { service_id: res[1][0].serviceId }),
         request.get('/metadata/getServiceInstances', { service_id: res[1][0].serviceId }),
@@ -62,7 +62,7 @@ const Dashboard: FC<IDashboardProps> = props => {
       .then(response => {
         setEndpoints(response[0]);
         setServiceInstances(response[1]);
-        setSelectedIds({ endpoint: res[0][0].serviceEndpointId, serviceInstance: res[1][0].serviceInstanceId })
+        setSelectedIds({ database: res[0][0].databaseId, service: res[1][0].serviceId, endpoint: response[0][0].serviceEndpointId, serviceInstance: response[1][0].serviceInstanceId });
       })
       .catch(e => {
           message.error(e.message);
@@ -80,6 +80,7 @@ const Dashboard: FC<IDashboardProps> = props => {
       .then(res => {
         setEndpoints(res[0]);
         setServiceInstances(res[1]);
+        setSelectedIds({ ...selectedIds, endpoint: res[0][0].serviceEndpointId, serviceInstance: res[1][0].serviceInstanceId });
       })
       .catch(e => {
         message.error(e.message);
@@ -104,7 +105,7 @@ const Dashboard: FC<IDashboardProps> = props => {
     }
   };
   return (
-    <div>
+    <div className="dashboard">
       <DashBoardHeader
         filter={filter}
         services={services}
@@ -113,9 +114,10 @@ const Dashboard: FC<IDashboardProps> = props => {
         serviceInstances={serviceInstances}
         onFilterChange={onFilterChange}
       />
+      <Card>
       { filter.type === '1'
         && <Tabs defaultActiveKey="1-1" onChange={onTabChange}>
-        <Tabs.TabPane tab="Global" key="1-1">
+        <Tabs.TabPane tab="Global" key="1-1" className="dashboard-tabpane">
         {
           filter.hasOwnProperty('type') &&
           <Global
@@ -124,7 +126,7 @@ const Dashboard: FC<IDashboardProps> = props => {
           />
         }
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Service" key="1-2">
+        <Tabs.TabPane tab="Service" key="1-2" className="dashboard-tabpane">
           {
             filter.hasOwnProperty('service') &&
             <ServicePanel
@@ -133,7 +135,7 @@ const Dashboard: FC<IDashboardProps> = props => {
             />
           }
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Endpoint" key="1-3">
+        <Tabs.TabPane tab="Endpoint" key="1-3" className="dashboard-tabpane">
           {
             filter.hasOwnProperty('endpoint') &&
             <EndpointPanel
@@ -142,12 +144,14 @@ const Dashboard: FC<IDashboardProps> = props => {
             />
           }
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Instance" key="1-4">
+        <Tabs.TabPane tab="Instance" key="1-4" className="dashboard-tabpane">
         {
-          filter.hasOwnProperty('type') &&
+          filter.hasOwnProperty('serviceInstance') &&
           <InstancePanel
             duration={duration}
-            instance={_.find(serviceInstances, (instance: ServiceInstancesType) => String(instance.serviceInstanceId) === filter?.endpoint)}
+            instance={serviceInstances.find((instance: ServiceInstancesType) => {
+              return String(instance.serviceInstanceId) === String(filter?.serviceInstance);
+            })}
           />
         }
       </Tabs.TabPane>
@@ -156,7 +160,7 @@ const Dashboard: FC<IDashboardProps> = props => {
       {
         filter.type === '2'
         && <Tabs defaultActiveKey="1" onChange={onTabChange}>
-          <Tabs.TabPane tab="Global" key="2-1">
+          <Tabs.TabPane tab="Global" key="2-1" className="dashboard-tabpane">
             {
               filter.hasOwnProperty('type') &&
               <Global
@@ -165,7 +169,7 @@ const Dashboard: FC<IDashboardProps> = props => {
               />
             }
           </Tabs.TabPane>
-          <Tabs.TabPane tab="Database" key="2-2">
+          <Tabs.TabPane tab="Database" key="2-2" className="dashboard-tabpane">
           {
               filter.hasOwnProperty('database') &&
               <DatabasePanel
@@ -176,6 +180,7 @@ const Dashboard: FC<IDashboardProps> = props => {
           </Tabs.TabPane>
         </Tabs>
       }
+      </Card>
     </div>
   );
 };

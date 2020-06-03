@@ -1,0 +1,457 @@
+[
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "spanId": 0,
+    "parentSpanId": -1,
+    "refs": [],
+    "serviceCode": "load balancer1.system",
+    "startTime": 1586786940420,
+    "endTime": 1586786947456,
+    "endpointName": "/projectA/test",
+    "type": "Entry",
+    "peer": "",
+    "component": "Nginx",
+    "isError": false,
+    "layer": "Http",
+    "tags": [
+      { "key": "http.method", "value": "GET" },
+      { "key": "http.params", "value": "http://192.168.252.13/projectA/test" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "spanId": 1,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "load balancer1.system",
+    "startTime": 1586786940420,
+    "endTime": 1586786947456,
+    "endpointName": "/projectA/test",
+    "type": "Exit",
+    "peer": "192.168.252.13:18080",
+    "component": "Nginx",
+    "isError": false,
+    "layer": "Http",
+    "tags": [],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "d9fb660b-7e1e-4557-a1e4-8f4c6e783762",
+    "spanId": 0,
+    "parentSpanId": -1,
+    "refs": [
+      {
+        "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+        "parentSegmentId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+        "parentSpanId": 1,
+        "type": "CROSS_PROCESS"
+      }
+    ],
+    "serviceCode": "load balancer2.system",
+    "startTime": 1586786940421,
+    "endTime": 1586786947455,
+    "endpointName": "/projectA/test",
+    "type": "Entry",
+    "peer": "",
+    "component": "Nginx",
+    "isError": false,
+    "layer": "Http",
+    "tags": [
+      { "key": "http.method", "value": "GET" },
+      { "key": "http.params", "value": "http://proxy.skywalking.com/projectA/test" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "d9fb660b-7e1e-4557-a1e4-8f4c6e783762",
+    "spanId": 1,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "load balancer2.system",
+    "startTime": 1586786940421,
+    "endTime": 1586786947455,
+    "endpointName": "/projectA/test",
+    "type": "Exit",
+    "peer": "upstream:projectA",
+    "component": "Nginx",
+    "isError": false,
+    "layer": "Http",
+    "tags": [],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "a40b0b3c180b40eda694e37c96575f97.46.15867869404217100",
+    "spanId": 0,
+    "parentSpanId": -1,
+    "refs": [
+      {
+        "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+        "parentSegmentId": "d9fb660b-7e1e-4557-a1e4-8f4c6e783762",
+        "parentSpanId": 1,
+        "type": "CROSS_PROCESS"
+      }
+    ],
+    "serviceCode": "projectA.business-zone",
+    "startTime": 1586786940421,
+    "endTime": 1586786947455,
+    "endpointName": "/projectA/{name}",
+    "type": "Entry",
+    "peer": "",
+    "component": "SpringMVC",
+    "isError": false,
+    "layer": "Http",
+    "tags": [
+      { "key": "url", "value": "http://proxy1.skywalking.com/projectA/test" },
+      { "key": "http.method", "value": "GET" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "a40b0b3c180b40eda694e37c96575f97.46.15867869404217100",
+    "spanId": 1,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "projectA.business-zone",
+    "startTime": 1586786940421,
+    "endTime": 1586786940427,
+    "endpointName": "/projectB/test",
+    "type": "Exit",
+    "peer": "PROJECTB:80",
+    "component": "SpringRestTemplate",
+    "isError": false,
+    "layer": "Http",
+    "tags": [
+      { "key": "url", "value": "http://PROJECTB:-1/projectB/test" },
+      { "key": "http.method", "value": "GET" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "dcec4edd2aa84827a89e60507f69334d.44.15867869404217080",
+    "spanId": 0,
+    "parentSpanId": -1,
+    "refs": [
+      {
+        "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+        "parentSegmentId": "a40b0b3c180b40eda694e37c96575f97.46.15867869404217100",
+        "parentSpanId": 1,
+        "type": "CROSS_PROCESS"
+      }
+    ],
+    "serviceCode": "projectB.business-zone",
+    "startTime": 1586786940421,
+    "endTime": 1586786940427,
+    "endpointName": "/projectB/{value}",
+    "type": "Entry",
+    "peer": "",
+    "component": "SpringMVC",
+    "isError": false,
+    "layer": "Http",
+    "tags": [
+      { "key": "url", "value": "http://192.168.252.12:8762/projectB/test" },
+      { "key": "http.method", "value": "GET" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "dcec4edd2aa84827a89e60507f69334d.44.15867869404217080",
+    "spanId": 1,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "projectB.business-zone",
+    "startTime": 1586786940421,
+    "endTime": 1586786940422,
+    "endpointName": "org.skywalking.springcloud.test.projectb.dao.DatabaseOperateDao.saveUser(java.lang.String)",
+    "type": "Local",
+    "peer": "",
+    "component": "Unknown",
+    "isError": false,
+    "layer": "Unknown",
+    "tags": [{ "key": "user.name", "value": "test" }],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "dcec4edd2aa84827a89e60507f69334d.44.15867869404217080",
+    "spanId": 2,
+    "parentSpanId": 1,
+    "refs": [],
+    "serviceCode": "projectB.business-zone",
+    "startTime": 1586786940422,
+    "endTime": 1586786940422,
+    "endpointName": "H2/JDBI/PreparedStatement/execute",
+    "type": "Exit",
+    "peer": "localhost:-1",
+    "component": "h2-jdbc-driver",
+    "isError": false,
+    "layer": "Database",
+    "tags": [
+      { "key": "db.type", "value": "sql" },
+      { "key": "db.instance", "value": "test" },
+      { "key": "db.statement", "value": "INSERT INTO user(name) VALUES(?)" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "dcec4edd2aa84827a89e60507f69334d.44.15867869404217080",
+    "spanId": 3,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "projectB.business-zone",
+    "startTime": 1586786940422,
+    "endTime": 1586786940427,
+    "endpointName": "selectUser",
+    "type": "Local",
+    "peer": "",
+    "component": "Unknown",
+    "isError": false,
+    "layer": "Unknown",
+    "tags": [{ "key": "user.name", "value": "test" }],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "dcec4edd2aa84827a89e60507f69334d.44.15867869404217080",
+    "spanId": 4,
+    "parentSpanId": 3,
+    "refs": [],
+    "serviceCode": "projectB.business-zone",
+    "startTime": 1586786940422,
+    "endTime": 1586786940427,
+    "endpointName": "H2/JDBI/PreparedStatement/execute",
+    "type": "Exit",
+    "peer": "localhost:-1",
+    "component": "h2-jdbc-driver",
+    "isError": false,
+    "layer": "Database",
+    "tags": [
+      { "key": "db.type", "value": "sql" },
+      { "key": "db.instance", "value": "test" },
+      { "key": "db.statement", "value": "SELECT * FROM user WHERE name =?" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "a40b0b3c180b40eda694e37c96575f97.46.15867869404217100",
+    "spanId": 2,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "projectA.business-zone",
+    "startTime": 1586786940427,
+    "endTime": 1586786947455,
+    "endpointName": "/projectC/{name}",
+    "type": "Exit",
+    "peer": "projectC:80",
+    "component": "Feign",
+    "isError": true,
+    "layer": "Http",
+    "tags": [
+      { "key": "http.method", "value": "GET" },
+      { "key": "url", "value": "http://projectC/projectC/test" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "b40f1dac66a042c9a60efcd63e279ec1.48.15867869404270434",
+    "spanId": 0,
+    "parentSpanId": -1,
+    "refs": [
+      {
+        "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+        "parentSegmentId": "a40b0b3c180b40eda694e37c96575f97.46.15867869404217100",
+        "parentSpanId": 2,
+        "type": "CROSS_PROCESS"
+      }
+    ],
+    "serviceCode": "projectC.business-zone",
+    "startTime": 1586786940427,
+    "endTime": 1586787003454,
+    "endpointName": "/projectC/{value}",
+    "type": "Entry",
+    "peer": "",
+    "component": "SpringMVC",
+    "isError": false,
+    "layer": "Http",
+    "tags": [
+      { "key": "url", "value": "http://192.168.252.13:8763/projectC/test" },
+      { "key": "http.method", "value": "GET" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "b40f1dac66a042c9a60efcd63e279ec1.48.15867869404270434",
+    "spanId": 1,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "projectC.business-zone",
+    "startTime": 1586786942428,
+    "endTime": 1586786943452,
+    "endpointName": "/",
+    "type": "Exit",
+    "peer": "www.baidu.com:80",
+    "component": "HttpClient",
+    "isError": false,
+    "layer": "Http",
+    "tags": [
+      { "key": "url", "value": "http://www.baidu.com" },
+      { "key": "http.method", "value": "GET" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "b40f1dac66a042c9a60efcd63e279ec1.48.15867869404270434",
+    "spanId": 2,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "projectC.business-zone",
+    "startTime": 1586786943453,
+    "endTime": 1586787003453,
+    "endpointName": "Kafka/test-trace-topic/Producer",
+    "type": "Exit",
+    "peer": "127.0.0.1:9092",
+    "component": "kafka-producer",
+    "isError": false,
+    "layer": "MQ",
+    "tags": [
+      { "key": "mq.broker", "value": "127.0.0.1:9092" },
+      { "key": "mq.topic", "value": "test-trace-topic" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "1ff230b6a1e44d35a6ca733b4bc65be7.46.15867869454292850",
+    "spanId": 0,
+    "parentSpanId": -1,
+    "refs": [
+      {
+        "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+        "parentSegmentId": "a40b0b3c180b40eda694e37c96575f97.46.15867869404217100",
+        "parentSpanId": 2,
+        "type": "CROSS_PROCESS"
+      }
+    ],
+    "serviceCode": "projectC.business-zone",
+    "startTime": 1586786945429,
+    "endTime": 1586786947455,
+    "endpointName": "/projectC/{value}",
+    "type": "Entry",
+    "peer": "",
+    "component": "SpringMVC",
+    "isError": false,
+    "layer": "Http",
+    "tags": [
+      { "key": "url", "value": "http://192.168.252.12:8763/projectC/test" },
+      { "key": "http.method", "value": "GET" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "1ff230b6a1e44d35a6ca733b4bc65be7.46.15867869454292850",
+    "spanId": 1,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "projectC.business-zone",
+    "startTime": 1586786947430,
+    "endTime": 1586786947453,
+    "endpointName": "/",
+    "type": "Exit",
+    "peer": "www.baidu.com:80",
+    "component": "HttpClient",
+    "isError": false,
+    "layer": "Http",
+    "tags": [
+      { "key": "url", "value": "http://www.baidu.com" },
+      { "key": "http.method", "value": "GET" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "1ff230b6a1e44d35a6ca733b4bc65be7.46.15867869454292850",
+    "spanId": 2,
+    "parentSpanId": 0,
+    "refs": [],
+    "serviceCode": "projectC.business-zone",
+    "startTime": 1586786947453,
+    "endTime": 1586786947454,
+    "endpointName": "Kafka/test-trace-topic/Producer",
+    "type": "Exit",
+    "peer": "127.0.0.1:9092",
+    "component": "kafka-producer",
+    "isError": false,
+    "layer": "MQ",
+    "tags": [
+      { "key": "mq.broker", "value": "127.0.0.1:9092" },
+      { "key": "mq.topic", "value": "test-trace-topic" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "a85896957bc64ca5ae88a8400a4f17bc.20.15867869573088230",
+    "spanId": 1,
+    "parentSpanId": 0,
+    "refs": [
+      {
+        "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+        "parentSegmentId": "1ff230b6a1e44d35a6ca733b4bc65be7.46.15867869454292850",
+        "parentSpanId": 2,
+        "type": "CROSS_PROCESS"
+      },
+      {
+        "traceId": "4a0b3b16-a188-4059-93a8-f17358e7aab2",
+        "parentSegmentId": "1ff230b6a1e44d35a6ca733b4bc65be7.48.15867869475973028",
+        "parentSpanId": 2,
+        "type": "CROSS_PROCESS"
+      }
+    ],
+    "serviceCode": "projectD.business-zone",
+    "startTime": 1586786957308,
+    "endTime": 1586786957308,
+    "endpointName": "Kafka/test-trace-topic/Consumer/test",
+    "type": "Entry",
+    "peer": "",
+    "component": "kafka-consumer",
+    "isError": false,
+    "layer": "MQ",
+    "tags": [
+      { "key": "mq.broker", "value": "127.0.0.1:9092" },
+      { "key": "mq.topic", "value": "test-trace-topic" }
+    ],
+    "logs": []
+  },
+  {
+    "traceId": "c5e2c6a8-aa73-4ccc-a20a-f03eadf36e82",
+    "segmentId": "a85896957bc64ca5ae88a8400a4f17bc.20.15867869573088230",
+    "spanId": 0,
+    "parentSpanId": -1,
+    "refs": [],
+    "serviceCode": "projectD.business-zone",
+    "startTime": 1586786957308,
+    "endTime": 1586786957309,
+    "endpointName": "org.skywalking.springcloud.test.projectd.MessageConsumer.consumer()",
+    "type": "Local",
+    "peer": "",
+    "component": "Unknown",
+    "isError": false,
+    "layer": "Unknown",
+    "tags": [],
+    "logs": []
+  }
+]

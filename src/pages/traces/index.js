@@ -41,7 +41,7 @@ export default function Trace() {
     getTraces(body).then(data => {
       if (isFetching) {
         setTraces(data);
-        setSelectedTrace(data.traces[0]);
+        setSelectedTrace(data.traces && data.traces[0]);
         setLoading(false);
       }
     });

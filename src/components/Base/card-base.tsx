@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-const CardBase: FC<{ label: React.ReactNode }> = props => {
+const CardBase: FC<{ label: React.ReactNode, style?: any }> = props => {
   return (
     <div
       style={{
@@ -8,6 +8,7 @@ const CardBase: FC<{ label: React.ReactNode }> = props => {
         flexDirection: 'column',
         paddingLeft: '5px',
         paddingRight:'5px',
+        ...props.style
       }}
     >
       <div

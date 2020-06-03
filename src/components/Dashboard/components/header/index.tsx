@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Card } from 'antd';
 import { DashBoardFilter, ServiceInstancesType, EndpointsType, ServicesType, DatabaseType } from '../../type';
 import DropDownSelect from './dropdown';
 interface IDashBoardHeaderProps{
@@ -21,7 +22,7 @@ const DashBoardHeader: FC<IDashBoardHeaderProps> = props => {
     name: 'Database'
   }];
   return (
-    <div>
+    <Card className="dashboard-header">
       <DropDownSelect
         choises={types}
         onChange={onFilterChange}
@@ -36,7 +37,7 @@ const DashBoardHeader: FC<IDashBoardHeaderProps> = props => {
           onChange={onFilterChange}
           type={'service'}
           idName={'serviceId'}
-          target={filter.service || String(services[0].serviceId)}
+          target={filter.service || String(services[0]?.serviceId)}
         />
       }
       {
@@ -46,7 +47,7 @@ const DashBoardHeader: FC<IDashBoardHeaderProps> = props => {
           onChange={onFilterChange}
           type={'endpoint'}
           idName={'serviceEndpointId'}
-          target={filter.endpoint || String(endpoints[0].serviceEndpointId)}
+          target={filter.endpoint || String(endpoints[0]?.serviceEndpointId)}
         />
       }
       {
@@ -55,8 +56,8 @@ const DashBoardHeader: FC<IDashBoardHeaderProps> = props => {
           choises={serviceInstances}
           onChange={onFilterChange}
           type={'serviceInstance'}
-          idName={'instanceUuid'}
-          target={filter.serviceInstance || String(serviceInstances[0].serviceInstanceId)}
+          idName={'serviceInstanceId'}
+          target={filter.serviceInstance || String(serviceInstances[0]?.serviceInstanceId)}
         />
       }
       {
@@ -65,11 +66,11 @@ const DashBoardHeader: FC<IDashBoardHeaderProps> = props => {
           choises={databases}
           onChange={onFilterChange}
           type={'database'}
-          idName={'id'}
-          target={filter.database || String(databases[0].databaseId)}
+          idName={'databaseId'}
+          target={filter.database || String(databases[0]?.databaseId)}
         />
       }
-    </div>
+    </Card>
   );
 };
 export default DashBoardHeader;

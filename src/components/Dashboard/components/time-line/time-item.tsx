@@ -7,8 +7,8 @@ interface ITimeItemProps extends instanceDate {
  unit: string;
 }
 const TimeItem: FC<ITimeItemProps> = props => {
-	const { name, value = 0, max = 100, color, unit} = props;
-	const percent = (value / max).toFixed(4);
+	const { name, value = 0, max, color, unit} = props;
+  const percent = (value / (max ? max : 100) * 100).toFixed(2) + '%';
   return (
 		<div className="dashboard-timeline-item">
       <div className="dashboard-timeline-item-layer1">

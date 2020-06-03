@@ -67,7 +67,6 @@ export default function TraceSearch({ defaultQuery, defaultRange, onSearch }) {
     };
   }, [serviceId]);
 
-  console.log('rerender');
   return (
     <div className={styles['container']}>
       <div>
