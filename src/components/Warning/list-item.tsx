@@ -19,7 +19,7 @@ const WarnItem: FC<WarnInfo> = props => {
       </div>
       <div className="warning-list-item-info">
         <div className="warning-list-item-info-msg">
-          {`#${id}  ${message}`}
+          {`${message}`}
         </div>
         <div>
           <span

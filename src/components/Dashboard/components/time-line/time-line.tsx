@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import TimeItem from './time-item';
 import { instanceDate } from '../../type';
+import './time-line.less';
 interface ITimeLineProps {
   data: Array<instanceDate>;
   unit: string;
@@ -16,9 +17,7 @@ const TimeLine: FC<ITimeLineProps> = props => {
   }, 0);
   return (
     <div
-      style={{
-        height: '100%',
-      }}
+      className="dashboard-timeline"
     >
       {
         data.map(item => {

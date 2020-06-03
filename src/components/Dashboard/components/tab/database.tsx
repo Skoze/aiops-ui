@@ -40,7 +40,7 @@ const DatabasePanel: FC<IDatabasePanelProps> = props => {
                 { name: 'databaseResponseTime', values: res.databaseResponseTime },
                 duration
               ),
-              avg: res.databaseResponseTime.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.databaseResponseTime.reduce((p: any, c: any) => p + c.value, 0)/ 16,
               avgLabel: 'Database Arg ResponseTime',
             })
             break;
@@ -54,7 +54,7 @@ const DatabasePanel: FC<IDatabasePanelProps> = props => {
                 { name: 'databaseThroughput', values: res.databaseThroughput },
                 duration
               ),
-              avg: res.databaseThroughput.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.databaseThroughput.reduce((p: any, c: any) => p + c.value, 0)/ 16,
               avgLabel: 'Database Arg Throughput',
             });
             break;
@@ -68,7 +68,7 @@ const DatabasePanel: FC<IDatabasePanelProps> = props => {
                 { name: 'databaseSLA', values: res.databaseSLA },
                 duration
               ),
-              avg: res.databaseSLA.reduce((p: any, c: any) => p + c.value, 0),
+              avg: res.databaseSLA.reduce((p: any, c: any) => p + c.value, 0)/ 1600,
               avgLabel: 'Database Avg SLA',
             });
             break;
