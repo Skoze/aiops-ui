@@ -9,7 +9,6 @@ export default class TopoGraph {
 
     this.svg.call(this.onZoom()).on('click', () => {
       this.select(null);
-      this.updateGraph();
     });
 
     this.tip = d3tip()
@@ -22,10 +21,7 @@ export default class TopoGraph {
     this.nodes = this.graph.append('g').selectAll();
     this.data = { nodes: [], links: [] };
 
-    this.selected = null;
     this.handleClick = [];
-
-    this.select(null);
   }
 
   addSelectListener(fn) {
@@ -54,15 +50,44 @@ export default class TopoGraph {
       .tick(300);
     this.data.nodes = nodes;
     this.data.links = links;
-    this.select(null);
+    let sameNode = null;
+    if (this.selectedNode) {
+      for (let node of nodes) {
+        if (node.id === this.selectedNode.id) {
+          sameNode = node;
+          break;
+        }
+      }
+    }
     this.updateNodes();
     this.updateLinks();
+    this.select(sameNode);
     this.updateGraph();
   }
 
-  select(node) {
-    this.selected = node;
-    this.handleClick.forEach(fn => fn(node));
+  select(selectedNode) {
+    this.selectedNode = selectedNode;
+    this.nodes
+      .classed(styles['selected'], false)
+      .filter(node => {
+        return node === selectedNode;
+      })
+      .classed(styles['selected'], true);
+    this.nodes
+      .classed(styles['unselected'], false)
+      .filter(node => {
+        return !this.isRelatedNode(selectedNode, node);
+      })
+      .classed(styles['unselected'], true);
+    this.links
+      .classed(styles['unselected'], false)
+      .filter(link => {
+        return !this.isRelatedLink(selectedNode, link);
+      })
+      .classed(styles['unselected'], true);
+
+    this.updateGraph();
+    this.handleClick.forEach(fn => fn(selectedNode));
   }
 
   updateNodes() {
@@ -82,7 +107,6 @@ export default class TopoGraph {
       .on('click', node => {
         d3.event.stopPropagation();
         this.select(node);
-        this.updateGraph();
       })
       .call(
         d3
@@ -119,7 +143,7 @@ export default class TopoGraph {
       .append('text')
       .attr('transform', 'translate(0, 50)')
       .attr('text-anchor', 'middle')
-      .text(d => (d.name.length > 20 ? `${d.name.substring(0, 20)}...` : d.name));
+      .text(d => (d.name.length > 15 ? `${d.name.substring(0, 13)}...` : d.name));
 
     this.nodes
       .selectAll('circle')
@@ -152,18 +176,6 @@ export default class TopoGraph {
       requestAnimationFrame(() => {
         this.nodes.attr('transform', d => `translate(${d.x},${d.y})`);
         this.links.attr('d', path);
-        this.nodes
-          .classed(styles['unselected'], false)
-          .filter(node => {
-            return !this.isRelatedNode(this.selected, node);
-          })
-          .classed(styles['unselected'], true);
-        this.links
-          .classed(styles['unselected'], false)
-          .filter(link => {
-            return !this.isRelatedLink(this.selected, link);
-          })
-          .classed(styles['unselected'], true);
         this.rendering = false;
       });
     }
@@ -206,7 +218,7 @@ export default class TopoGraph {
 }
 
 function diff(oldNodes, newNodes) {
-  newNodes.sort((a, b) => {
+  function byId(a, b) {
     if (a.id > b.id) {
       return 1;
     } else if (a.id < b.id) {
@@ -214,7 +226,9 @@ function diff(oldNodes, newNodes) {
     } else {
       return 0;
     }
-  });
+  }
+  newNodes.sort(byId);
+  oldNodes.sort(byId);
   let p1 = 0;
   let p2 = 0;
   while (p1 < oldNodes.length && p2 < newNodes.length) {
