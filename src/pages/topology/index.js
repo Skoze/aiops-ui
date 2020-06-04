@@ -3,18 +3,24 @@ import { DurationContext } from '@/layouts';
 import { getTopology } from '@/api/topology';
 import Graph from '@/components/Topology/graph';
 import ServiceSelector from '@/components/Topology/service-selector';
-import TagBase from '@/components/Base/tag-base';
+import ServiceInfo from '@/components/Topology/service-info';
+// import TagBase from '@/components/Base/tag-base';
 import styles from './index.css';
+// import { Drawer } from 'antd';
 
+// const types = ['alarm', 'trace', 'instance', 'api'];
+// const typeNames = ['告警', '调用链', '实例', '端点'];
+// const typeMap = new Map(types.map((type, index) => [type, typeNames[index]]));
 export default function() {
   const svgRef = useRef();
   const graph = useRef(null);
+  const data = useRef({ nodes: [], links: [] });
   const { duration } = useContext(DurationContext);
   const [services, setServices] = useState([]);
-  const [data, setData] = useState({ nodes: [], links: [] });
   const [selectedServiceIds, setSelectedServiceIds] = useState([]);
   const [selectedNode, setSelectedNode] = useState(null);
-  const [type, setType] = useState('');
+  // const [type, setType] = useState('none');
+  // const [showDrawer, setShowDrawer] = useState(false);
   useEffect(() => {
     graph.current = new Graph(svgRef.current);
     graph.current.addSelectListener(setSelectedNode);
@@ -23,10 +29,8 @@ export default function() {
     let isFetching = true;
     getTopology(duration).then(res => {
       if (isFetching) {
-        if (res.nodes && res.calls) {
-          setData({ nodes: res.nodes, links: res.calls });
-          setServices(res.nodes.filter(node => node.isReal));
-        }
+        data.current = { nodes: res.nodes, links: res.calls };
+        setServices(res.nodes.filter(node => node.isReal));
       }
     });
     return () => (isFetching = false);
@@ -34,24 +38,55 @@ export default function() {
 
   useEffect(() => {
     if (graph.current instanceof Graph) {
-      graph.current.setOption(subData(data, selectedServiceIds));
+      graph.current.setOption(subData(data.current, selectedServiceIds));
     }
-  }, [data, selectedServiceIds]);
+  }, [selectedServiceIds]);
 
   return (
     <div className={styles['container']}>
       <svg ref={svgRef} className={styles['svg']} width="100%" height="100%"></svg>
-      {selectedNode && selectedNode.isReal && (
-        <div className={styles['tool-bar']}>
-          <TagBase label="告警" icon={tagIcon('alarm')} onClick={() => setType('alarm')} />
-          <TagBase label="调用链" icon={tagIcon('trace')} onClick={() => setType('trace')} />
-          <TagBase label="实例" icon={tagIcon('instance')} onClick={() => setType('instance')} />
-          <TagBase label="端点" icon={tagIcon('api')} onClick={() => setType('api')} />
-        </div>
-      )}
       <div className={styles['service-selector']}>
         <ServiceSelector services={services} onChange={setSelectedServiceIds}></ServiceSelector>
       </div>
+      {selectedNode && selectedNode.isReal && (
+        // <div className={styles['tool-bar']}>
+        //   {types.map(type => (
+        //     <TagBase
+        //       key={type}
+        //       label={typeMap.get(type)}
+        //       icon={tagIcon(type)}
+        //       onClick={() => {
+        //         setType(type);
+        //         setShowDrawer(true);
+        //       }}
+        //     />
+        //   ))}
+        // </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: '1em',
+            top: '1em',
+            minWidth: '400px',
+            maxWidth: '500px',
+            width: '40vw',
+          }}
+        >
+          <ServiceInfo service={selectedNode} />
+        </div>
+      )}
+
+      {/* <Drawer
+        title={`${typeMap.get(type)}信息`}
+        placement="left"
+        visible={showDrawer}
+        width="fit-content"
+        drawerStyle={{ minWidth: '75vw', maxWidth: '100vw' }}
+        destroyOnClose
+        onClose={() => setShowDrawer(false)}
+      >
+        {selectedNode && selectedNode.name}
+      </Drawer> */}
     </div>
   );
 }
@@ -79,6 +114,6 @@ function subData({ nodes, links }, ids) {
   return { nodes: subNodes, links: subLinks };
 }
 
-function tagIcon(type) {
-  return require(`@/assets/${type.toUpperCase()}.png`);
-}
+// function tagIcon(type) {
+//   return require(`@/assets/${type.toUpperCase()}.png`);
+// }

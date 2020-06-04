@@ -1,0 +1,21 @@
+.container {
+  display: grid;
+  max-height: 80vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1em 0.5em;
+  grid-template-columns: 50% 50%;
+}
+
+.title {
+  padding-left: 0.5em;
+}
+
+.title .label {
+  color: #aaa;
+  padding-bottom: 0.5em;
+}
+
+.title .value {
+  color: white;
+  margin-bottom: 1em;
+}
