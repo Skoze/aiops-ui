@@ -50,13 +50,23 @@ export default class TopoGraph {
       .tick(300);
     this.data.nodes = nodes;
     this.data.links = links;
-    this.select(null);
+    let sameNode = null;
+    if (this.selectedNode) {
+      for (let node of nodes) {
+        if (node.id === this.selectedNode.id) {
+          sameNode = node;
+          break;
+        }
+      }
+    }
     this.updateNodes();
     this.updateLinks();
+    this.select(sameNode);
     this.updateGraph();
   }
 
   select(selectedNode) {
+    this.selectedNode = selectedNode;
     this.nodes
       .classed(styles['selected'], false)
       .filter(node => {
@@ -208,7 +218,7 @@ export default class TopoGraph {
 }
 
 function diff(oldNodes, newNodes) {
-  newNodes.sort((a, b) => {
+  function byId(a, b) {
     if (a.id > b.id) {
       return 1;
     } else if (a.id < b.id) {
@@ -216,7 +226,9 @@ function diff(oldNodes, newNodes) {
     } else {
       return 0;
     }
-  });
+  }
+  newNodes.sort(byId);
+  oldNodes.sort(byId);
   let p1 = 0;
   let p2 = 0;
   while (p1 < oldNodes.length && p2 < newNodes.length) {
