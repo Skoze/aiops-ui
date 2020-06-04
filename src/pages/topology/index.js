@@ -3,13 +3,14 @@ import { DurationContext } from '@/layouts';
 import { getTopology } from '@/api/topology';
 import Graph from '@/components/Topology/graph';
 import ServiceSelector from '@/components/Topology/service-selector';
-import TagBase from '@/components/Base/tag-base';
+import ServiceInfo from '@/components/Topology/service-info';
+// import TagBase from '@/components/Base/tag-base';
 import styles from './index.css';
-import { Drawer } from 'antd';
+// import { Drawer } from 'antd';
 
-const types = ['alarm', 'trace', 'instance', 'api'];
-const typeNames = ['告警', '调用链', '实例', '端点'];
-const typeMap = new Map(types.map((type, index) => [type, typeNames[index]]));
+// const types = ['alarm', 'trace', 'instance', 'api'];
+// const typeNames = ['告警', '调用链', '实例', '端点'];
+// const typeMap = new Map(types.map((type, index) => [type, typeNames[index]]));
 export default function() {
   const svgRef = useRef();
   const graph = useRef(null);
@@ -18,8 +19,8 @@ export default function() {
   const [services, setServices] = useState([]);
   const [selectedServiceIds, setSelectedServiceIds] = useState([]);
   const [selectedNode, setSelectedNode] = useState(null);
-  const [type, setType] = useState('none');
-  const [showDrawer, setShowDrawer] = useState(false);
+  // const [type, setType] = useState('none');
+  // const [showDrawer, setShowDrawer] = useState(false);
   useEffect(() => {
     graph.current = new Graph(svgRef.current);
     graph.current.addSelectListener(setSelectedNode);
@@ -48,22 +49,34 @@ export default function() {
         <ServiceSelector services={services} onChange={setSelectedServiceIds}></ServiceSelector>
       </div>
       {selectedNode && selectedNode.isReal && (
-        <div className={styles['tool-bar']}>
-          {types.map(type => (
-            <TagBase
-              key={type}
-              label={typeMap.get(type)}
-              icon={tagIcon(type)}
-              onClick={() => {
-                setType(type);
-                setShowDrawer(true);
-              }}
-            />
-          ))}
+        // <div className={styles['tool-bar']}>
+        //   {types.map(type => (
+        //     <TagBase
+        //       key={type}
+        //       label={typeMap.get(type)}
+        //       icon={tagIcon(type)}
+        //       onClick={() => {
+        //         setType(type);
+        //         setShowDrawer(true);
+        //       }}
+        //     />
+        //   ))}
+        // </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: '1em',
+            top: '1em',
+            minWidth: '400px',
+            maxWidth: '500px',
+            width: '40vw',
+          }}
+        >
+          <ServiceInfo service={selectedNode} />
         </div>
       )}
 
-      <Drawer
+      {/* <Drawer
         title={`${typeMap.get(type)}信息`}
         placement="left"
         visible={showDrawer}
@@ -73,7 +86,7 @@ export default function() {
         onClose={() => setShowDrawer(false)}
       >
         {selectedNode && selectedNode.name}
-      </Drawer>
+      </Drawer> */}
     </div>
   );
 }
@@ -101,6 +114,6 @@ function subData({ nodes, links }, ids) {
   return { nodes: subNodes, links: subLinks };
 }
 
-function tagIcon(type) {
-  return require(`@/assets/${type.toUpperCase()}.png`);
-}
+// function tagIcon(type) {
+//   return require(`@/assets/${type.toUpperCase()}.png`);
+// }

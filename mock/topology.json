@@ -1,56 +1,56 @@
 [
   {
-    "id": "bG9hZCBiYWxhbmNlcjEuc3lzdGVt.1",
+    "id": "1",
     "name": "load balancer1.system",
     "type": "Nginx",
     "isReal": true,
     "exception": 0.8
   },
   {
-    "id": "d3d3LmJhaWR1LmNvbTo4MA==.0",
+    "id": "2",
     "name": "www.baidu.com:80",
     "type": "Unknown",
     "isReal": false
   },
-  { "id": "VXNlcg==.0", "name": "User", "type": "USER", "isReal": false },
+  { "id": "3", "name": "User", "type": "USER", "isReal": false },
   {
-    "id": "cHJvamVjdEMuYnVzaW5lc3Mtem9uZQ==.1",
+    "id": "4",
     "name": "projectC.business-zone",
     "type": "SpringMVC",
     "isReal": true,
     "exception": 0.5
   },
   {
-    "id": "MTkyLjE2OC4yNTIuMTI6ODc2MQ==.0",
+    "id": "5",
     "name": "192.168.252.12:8761",
     "type": "Unknown",
     "isReal": false
   },
   {
-    "id": "cHJvamVjdEEuYnVzaW5lc3Mtem9uZQ==.1",
+    "id": "6",
     "name": "projectA.business-zone",
     "type": "SpringMVC",
     "isReal": true,
     "exception": 0
   },
   {
-    "id": "cHJvamVjdEIuYnVzaW5lc3Mtem9uZQ==.1",
+    "id": "7",
     "name": "projectB.business-zone",
     "type": "SpringMVC",
     "isReal": true,
     "exception": 0.2
   },
-  { "id": "bG9jYWxob3N0Ojg3NjE=.0", "name": "localhost:8761", "type": "Unknown", "isReal": false },
+  { "id": "8", "name": "localhost:8761", "type": "Unknown", "isReal": false },
   {
-    "id": "bG9hZCBiYWxhbmNlcjIuc3lzdGVt.1",
+    "id": "9",
     "name": "load balancer2.system",
     "type": "Nginx",
     "isReal": true
   },
-  { "id": "MTI3LjAuMC4xOjkwOTI=.0", "name": "127.0.0.1:9092", "type": "Kafka", "isReal": false },
-  { "id": "bG9jYWxob3N0Oi0x.0", "name": "localhost:-1", "type": "H2", "isReal": false },
+  { "id": "10", "name": "127.0.0.1:9092", "type": "Kafka", "isReal": false },
+  { "id": "11", "name": "localhost:-1", "type": "H2", "isReal": false },
   {
-    "id": "cHJvamVjdEQuYnVzaW5lc3Mtem9uZQ==.1",
+    "id": "12",
     "name": "projectD.business-zone",
     "type": "kafka-consumer",
     "isReal": true,
