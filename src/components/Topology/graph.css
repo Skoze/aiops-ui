@@ -19,7 +19,7 @@
 .node .circle {
   fill: rgba(78, 87, 101, 0.7);
   stroke-width: 6px;
-  transition: all 0.5s;
+  transition: stroke 0.5s;
 }
 
 .link {
@@ -33,7 +33,7 @@
 
 .unselected {
   opacity: 0.1 !important;
-  transition: all 0.3s;
+  transition: opacity 0.3s;
 }
 
 .node.selected {
