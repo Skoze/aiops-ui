@@ -17,7 +17,7 @@ interface IDashboardProps {
 const Dashboard: FC<IDashboardProps> = props => {
   const { duration } = useContext(DurationContext);
   const [filter, setFilter] = useState<DashBoardFilter>({ type: '1'});
-  const [selectedIds, setSelectedIds] = useState<DashBoardFilter>();
+  const [selectedIds, setSelectedIds] = useState<DashBoardFilter>({ type: '1'});
   const [services, setServices] = useState();
   const [databases, setDatabases] = useState();
   const [endpoints, setEndpoints] = useState();
@@ -30,7 +30,6 @@ const Dashboard: FC<IDashboardProps> = props => {
         break;
       case 'service':
         tempFilter.service = value;
-        requestHeader(value);
         break;
       case 'endpoint':
         tempFilter.endpoint = value;
@@ -45,7 +44,11 @@ const Dashboard: FC<IDashboardProps> = props => {
         break;
     }
     setFilter(tempFilter);
-    setSelectedIds({ ...selectedIds, ...tempFilter });
+    if (type === 'service') {
+      requestHeader(value, {...selectedIds, ...tempFilter});
+    } else {
+      setSelectedIds({ ...selectedIds, ...tempFilter });
+    }
   };
   useEffect(() => {
     Promise.all([
@@ -62,7 +65,7 @@ const Dashboard: FC<IDashboardProps> = props => {
       .then(response => {
         setEndpoints(response[0]);
         setServiceInstances(response[1]);
-        setSelectedIds({ database: res[0][0].databaseId, service: res[1][0].serviceId, endpoint: response[0][0].serviceEndpointId, serviceInstance: response[1][0].serviceInstanceId });
+        setSelectedIds({ ...selectedIds, database: res[0][0].databaseId, service: res[1][0].serviceId, endpoint: response[0][0].serviceEndpointId, serviceInstance: response[1][0].serviceInstanceId });
       })
       .catch(e => {
           message.error(e.message);
@@ -71,8 +74,8 @@ const Dashboard: FC<IDashboardProps> = props => {
     .catch(e => {
       message.error(e.message);
     });
-  }, []);
-  const requestHeader = (id: string) => {
+  }, [selectedIds]);
+  const requestHeader = (id: string, selected: object) => {
     Promise.all([
       request.get('/metadata/getEndpoints', { service_id: id }),
       request.get('/metadata/getServiceInstances', { service_id: id }),
@@ -80,7 +83,7 @@ const Dashboard: FC<IDashboardProps> = props => {
       .then(res => {
         setEndpoints(res[0]);
         setServiceInstances(res[1]);
-        setSelectedIds({ ...selectedIds, endpoint: res[0][0].serviceEndpointId, serviceInstance: res[1][0].serviceInstanceId });
+        setSelectedIds({ ...selected, endpoint: res[0][0].serviceEndpointId, serviceInstance: res[1][0].serviceInstanceId });
       })
       .catch(e => {
         message.error(e.message);
@@ -107,7 +110,7 @@ const Dashboard: FC<IDashboardProps> = props => {
   return (
     <div className="dashboard">
       <DashBoardHeader
-        filter={filter}
+        filter={selectedIds}
         services={services}
         databases={databases}
         endpoints={endpoints}
