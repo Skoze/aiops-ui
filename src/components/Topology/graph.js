@@ -66,6 +66,9 @@ export default class TopoGraph {
   }
 
   select(selectedNode) {
+    if (!this.selectedNode || !selectedNode || this.selectedNode.id !== selectedNode.id) {
+      this.handleClick.forEach(fn => fn(selectedNode));
+    }
     this.selectedNode = selectedNode;
     this.nodes
       .classed(styles['selected'], false)
@@ -87,7 +90,6 @@ export default class TopoGraph {
       .classed(styles['unselected'], true);
 
     this.updateGraph();
-    this.handleClick.forEach(fn => fn(selectedNode));
   }
 
   updateNodes() {
@@ -96,9 +98,9 @@ export default class TopoGraph {
     const exit = nodes.exit();
     this.nodes = nodes.merge(enter);
     exit
-      .transition()
-      .duration(200)
-      .style('opacity', 0)
+      // .transition()
+      // .duration(200)
+      // .style('opacity', 0)
       .remove();
     enter
       .attr('class', styles['node'])
@@ -158,9 +160,9 @@ export default class TopoGraph {
     this.links = links.merge(enter);
 
     exit
-      .transition()
-      .duration(200)
-      .style('opacity', 0)
+      // .transition()
+      // .duration(200)
+      // .style('opacity', 0)
       .remove();
     enter
       .attr('class', styles['link'])
