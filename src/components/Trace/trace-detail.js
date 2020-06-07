@@ -4,6 +4,7 @@ import { getSpans } from '@/api/trace';
 import styles from './trace-detail.css';
 import TraceTree from './trace-tree';
 import SpanDetail from './span-detail';
+import moment from 'moment';
 
 export default function TraceDetail({ trace }) {
   const [spans, setSpans] = useState([]);
@@ -35,7 +36,9 @@ export default function TraceDetail({ trace }) {
           </div>
           <div>
             <Tag color="black">起始时间</Tag>
-            <span className={styles['trace-data']}>{trace.start}</span>
+            <span className={styles['trace-data']}>
+              {moment(trace.start).format('YYYY-MM-DD HH:mm:ss')}
+            </span>
             <Tag color="black">持续时间</Tag>
             <span className={styles['trace-data']}>{trace.duration}ms</span>
             <Tag color="black">跨度</Tag>

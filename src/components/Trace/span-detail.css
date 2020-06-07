@@ -12,8 +12,8 @@
   font-weight: normal;
 }
 .log {
-  min-width: 50vw;
-  width: 40em;
+  min-width: fit-content;
+  width: calc(60em + 32px);
   max-width: 100%;
 }
 .log-key {
@@ -21,10 +21,10 @@
   margin-right: 0.5em;
 }
 .log-stack {
-  max-height: 10em;
-  white-space: pre;
+  max-height: 30em;
+  width: 60em;
+  /* white-space: pre; */
   overflow: auto;
-  /* background-color: #fafafa; */
   background-color: #333;
   color: #eee;
   border: 1px solid #ccc;
