@@ -7,11 +7,11 @@ export default class Trace {
   constructor(el) {
     this.i = 0;
     this.handleClick = [];
-    this.width = el.clientWidth;
     this.svg = d3
       .select(el)
       .append('svg')
-      .attr('width', this.width);
+      .attr('width', '100%');
+    this.width = parseInt(this.svg.style('width'));
     this.tip = d3tip()
       .attr('class', styles['tip'])
       .html(d => {
@@ -40,18 +40,24 @@ export default class Trace {
     }
   }
 
-  render(data, row, callback) {
+  resize() {
+    this.width = parseInt(this.svg.style('width'));
+  }
+  destroy() {
+    this.tip.hide();
+  }
+
+  render(data, row) {
     this.xAxis && this.xAxis.remove();
-    this.row = row;
     this.data = data;
     this.min = d3.min(data.children.map(i => i.startTime));
     this.max = d3.max(data.children.map(i => i.endTime));
-    this.list = Array.from(new Set(this.row.map(i => i.serviceCode)));
+    this.list = Array.from(new Set(row.map(i => i.serviceCode)));
     this.xScale = d3
       .scaleLinear()
       .range([0, this.width * 0.387])
       .domain([0, this.max - this.min]);
-    this.svg.attr('height', (this.row.length + 1) * barHeight);
+    this.svg.attr('height', (row.length + 1) * barHeight);
     this.xAxis = this.svg
       .append('g')
       .attr('class', styles['trace-xaxis'])
@@ -74,9 +80,9 @@ export default class Trace {
     this.root = d3.hierarchy(this.data);
     this.root.x0 = 0;
     this.root.y0 = 0;
-    this.update(this.root, callback);
+    this.update(this.root);
   }
-  update(source, callback) {
+  update(source) {
     const nodes = this.root.descendants();
     let index = -1;
     this.root.eachBefore(n => {
@@ -232,8 +238,5 @@ export default class Trace {
       d.x0 = d.x;
       d.y0 = d.y;
     });
-    if (callback) {
-      callback();
-    }
   }
 }

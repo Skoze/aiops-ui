@@ -2,22 +2,39 @@ import Trace from './d3-trace';
 import React, { useRef, useEffect } from 'react';
 import { Spin } from 'antd';
 export default function TraceTree({ spans, onSelect }) {
-  const tree = useRef();
+  const d3tree = useRef();
   const trace = useRef(null);
   useEffect(() => {
-    trace.current = new Trace(tree.current);
+    trace.current = new Trace(d3tree.current);
+    return () => {
+      trace.current.destroy();
+    };
   }, []);
   useEffect(() => {
     trace.current.addSelectListener(onSelect);
   }, [onSelect]);
 
   useEffect(() => {
-    trace.current.render(buildTree(spans), spans);
+    const spanTree = buildTree(spans);
+    trace.current.render(spanTree, spans);
+
+    let timeout = null;
+    const resizeListener = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        trace.current.resize();
+        trace.current.render(spanTree, spans);
+      }, 1000);
+    };
+    window.addEventListener('resize', resizeListener);
+    return () => {
+      window.removeEventListener('resize', resizeListener);
+    };
   }, [spans]);
 
   return (
     <Spin spinning={!spans.length} delay={500} size="large">
-      <div ref={tree} />
+      <div ref={d3tree} />
     </Spin>
   );
 }
