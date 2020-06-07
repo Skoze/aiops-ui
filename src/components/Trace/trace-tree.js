@@ -49,6 +49,8 @@ function buildTree(spans) {
         const { parentSegmentId, parentSpanId } = ref;
         if (map[parentSegmentId] && map[parentSegmentId][parentSpanId]) {
           map[parentSegmentId][parentSpanId].children.push(currentSpan);
+        } else if (parentSegmentId === undefined || parentSpanId === undefined) {
+          root.children.push(currentSpan);
         }
       } else {
         root.children.push(currentSpan);
